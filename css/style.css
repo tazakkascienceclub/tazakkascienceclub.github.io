@@ -121,3 +121,40 @@ footer {
   padding: 0 1rem 1rem;
 }
 }
+/* ===== FORMULIR KONTAK ===== */
+.form {
+  display: flex;
+  flex-direction: column;   /* kolom tersusun dari atas ke bawah */
+  max-width: 500px;
+}
+
+.form label {
+  font-weight: bold;
+  margin-top: 0.8rem;
+}
+
+.form input,
+.form textarea {
+  font: inherit;            /* huruf sama dengan halaman */
+  padding: 0.7rem;
+  border: 1px solid #c5ccd3;
+  border-radius: 8px;
+  margin-top: 0.3rem;
+}
+
+/* ===== TOMBOL ===== */
+.form button {
+  margin-top: 1.2rem;
+  padding: 0.8rem;
+  background: #0f5c4d;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background: #0a4237;      /* warna lebih gelap saat disentuh */
+}
