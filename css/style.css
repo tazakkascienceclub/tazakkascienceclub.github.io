@@ -1,0 +1,91 @@
+/* ===== RESET: menyamakan tampilan dasar di semua browser ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== HURUF & WARNA DASAR ===== */
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1f2933;      /* warna teks abu gelap */
+  line-height: 1.6;    /* jarak antarbaris */
+}
+
+/* ===== HEADER ===== */
+header {
+  background: #0f5c4d;   /* hijau tua */
+  padding: 1rem;
+  position: sticky;      /* header tetap di atas saat digulir */
+  top: 0;
+  display: flex;
+  flex-wrap: wrap;       /* menu turun ke baris baru jika layar sempit */
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: none;  /* hilangkan garis bawah */
+}
+
+/* ===== MENU NAVIGASI ===== */
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 1rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* ===== SEMUA BAGIAN (section) ===== */
+section {
+  padding: 3rem 1rem;
+  max-width: 900px;      /* isi tidak terlalu lebar di layar besar */
+  margin: 0 auto;        /* posisi di tengah */
+  scroll-margin-top: 70px; /* judul tidak tertutup header */
+}
+
+h1 {
+  font-size: 2rem;
+  color: #0f5c4d;
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+  color: #0f5c4d;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 0.8rem;
+}
+
+/* ===== BAGIAN BERANDA ===== */
+#beranda {
+  text-align: center;
+  padding: 5rem 1rem;
+}
+
+/* ===== GAMBAR ===== */
+img {
+  width: 100%;           /* gambar menyesuaikan lebar layar */
+  max-width: 600px;
+  border-radius: 12px;   /* sudut melengkung */
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #1f2933;
+  color: white;
+  text-align: center;
+  padding: 1.5rem;
+}
