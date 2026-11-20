@@ -111,7 +111,7 @@ lightbox.addEventListener("touchend", function (e) {
 
 // ===== 5. VALIDASI FORMULIR KONTAK =====
 // ⚠️ GANTI alamat email di bawah ini dengan email klub Anda
-const CLUB_EMAIL = "email-klub@gmail.com";
+const CLUB_EMAIL = "tazakkascienceclub@gmail.com";
 
 const form = document.getElementById("contactForm");
 const info = document.getElementById("formInfo");
