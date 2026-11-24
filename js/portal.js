@@ -85,6 +85,7 @@ const BUCKET = "berkas"; // nama tempat penyimpanan file di Supabase Storage
 const app = document.getElementById("app");
 let pengguna = null;
 let isAdmin = false;
+let statusSaya = "menunggu";
 let jumlahPerFolder = {};
 
 // ---------- 2. CEK LOGIN ----------
@@ -105,11 +106,20 @@ let jumlahPerFolder = {};
   }
   pengguna = data.session.user;
 
-  // Admin atau santri?
-  const cek = await db.rpc("is_admin");
-  isAdmin = cek.data === true;
+  // Status: admin, disetujui, atau menunggu persetujuan
+  const cek = await db.rpc("status_saya");
+  if (cek.error) {
+    // SQL pendaftaran belum dijalankan: pakai cara lama
+    const lama = await db.rpc("is_admin");
+    statusSaya = lama.data === true ? "admin" : "disetujui";
+  } else {
+    statusSaya = cek.data;
+  }
+  isAdmin = statusSaya === "admin";
+  document.querySelectorAll(".js-admin-only").forEach(function (el) { el.hidden = !isAdmin; });
 
   isiInfoPengguna();
+  if (statusSaya === "menunggu") { halamanMenunggu(); return; }
   await hitungFile();
   window.addEventListener("hashchange", tampilkan);
   tampilkan();
@@ -139,7 +149,7 @@ function isiInfoPengguna() {
   document.querySelectorAll(".js-nama").forEach(function (el) { el.textContent = nama; });
   document.querySelectorAll(".js-avatar").forEach(function (el) { el.textContent = nama.charAt(0).toUpperCase(); });
   document.querySelectorAll(".js-role").forEach(function (el) {
-    el.textContent = isAdmin ? "ADMIN" : "SANTRI";
+    el.textContent = isAdmin ? "ADMIN" : statusSaya === "menunggu" ? "MENUNGGU" : "SANTRI";
     el.classList.toggle("admin", isAdmin);
   });
 }
@@ -159,6 +169,13 @@ function jumlahItem(jalur, node) {
 // ---------- 4. PINDAH HALAMAN SESUAI ALAMAT (#belajar/fisika/materi) ----------
 function tampilkan() {
   const bagian = location.hash.replace("#", "").split("/").filter(Boolean);
+
+  // Halaman khusus admin: kelola anggota
+  if (bagian[0] === "anggota" && isAdmin) {
+    document.querySelectorAll("[data-menu]").forEach(function (a) { a.classList.toggle("active", a.dataset.menu === "anggota"); });
+    halamanAnggota();
+    return;
+  }
   let node = null, jalur = [], warna = null;
 
   // telusuri susunan MENU
@@ -310,6 +327,67 @@ async function hapusFile(f) {
   if (error) { alert("Gagal menghapus: " + error.message); return; }
   await hitungFile();
   tampilkan();
+}
+
+// ---------- 8b. MENUNGGU PERSETUJUAN ----------
+function halamanMenunggu() {
+  document.querySelectorAll(".side-nav, .tabbar").forEach(function (el) { el.style.visibility = "hidden"; });
+  app.innerHTML =
+    '<div class="config-box"><div style="font-size:3rem">⏳</div>' +
+    '<h2>Menunggu persetujuan admin</h2>' +
+    '<p class="muted">Halo, <b>' + esc(namaPengguna()) + '</b>! Akun Anda sudah terdaftar, tetapi belum disetujui. ' +
+    'Hubungi pembina TSTC, lalu buka halaman ini lagi setelah disetujui.</p>' +
+    '<button class="btn btn-green" onclick="location.reload()">Periksa lagi</button></div>';
+}
+
+// ---------- 8c. KELOLA ANGGOTA (ADMIN) ----------
+async function halamanAnggota() {
+  app.innerHTML =
+    '<nav class="crumbs"><a href="#">🏠 Dashboard</a><span class="sep">›</span><span class="now">Anggota</span></nav>' +
+    '<div class="page-head"><div><h1>👥 Anggota</h1><p>Setujui santri yang mendaftar agar bisa membuka materi.</p></div></div>' +
+    '<div id="daftarAnggota" class="file-list"><p class="loading">Memuat…</p></div>';
+
+  const { data, error } = await db.from("anggota").select("*").order("disetujui").order("created_at", { ascending: false });
+  const box = document.getElementById("daftarAnggota");
+  if (!box) return;
+  if (error) {
+    box.innerHTML = '<div class="empty">Gagal memuat: ' + esc(error.message) + '<br>Pastikan file <b>supabase-daftar.sql</b> sudah dijalankan.</div>';
+    return;
+  }
+  if (!data.length) { box.innerHTML = '<div class="empty"><span class="ic">👥</span>Belum ada anggota.</div>'; return; }
+
+  box.innerHTML = data.map(function (a, i) {
+    const tgl = new Date(a.created_at).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+    return '<div class="file" style="animation-delay:' + i * 0.04 + 's">' +
+      '<span class="avatar">' + esc((a.nama || a.email).charAt(0).toUpperCase()) + '</span>' +
+      '<div class="txt"><b>' + esc(a.nama || "(tanpa nama)") + '</b><span>' + esc(a.email) + '</span>' +
+      '<small>Daftar ' + tgl + ' · ' + (a.disetujui ? '<span class="pill ok">Disetujui</span>' : '<span class="pill wait">Menunggu</span>') + '</small></div>' +
+      '<div class="acts">' +
+        (a.disetujui
+          ? '<button class="btn btn-light btn-sm" data-set="' + i + '" data-val="0">Cabut</button>'
+          : '<button class="btn btn-green btn-sm" data-set="' + i + '" data-val="1">Setujui ✓</button>') +
+        '<button class="btn-icon" data-del="' + i + '" aria-label="Hapus">🗑️</button>' +
+      '</div></div>';
+  }).join("");
+
+  box.querySelectorAll("[data-set]").forEach(function (b) {
+    b.onclick = async function () {
+      const a = data[b.dataset.set];
+      b.disabled = true;
+      const { error } = await db.from("anggota").update({ disetujui: b.dataset.val === "1" }).eq("id", a.id);
+      if (error) alert("Gagal: " + error.message);
+      halamanAnggota();
+    };
+  });
+  box.querySelectorAll("[data-del]").forEach(function (b) {
+    b.onclick = async function () {
+      const a = data[b.dataset.del];
+      if (!confirm("Hapus " + (a.nama || a.email) + " dari daftar anggota? (Akun login tetap ada, tapi tidak bisa membuka materi.)")) return;
+      const { error } = await db.from("anggota").delete().eq("id", a.id);
+      if (error) alert("Gagal: " + error.message);
+      halamanAnggota();
+    };
+  });
 }
 
 // ---------- 9. TAMBAH FILE (ADMIN) ----------
