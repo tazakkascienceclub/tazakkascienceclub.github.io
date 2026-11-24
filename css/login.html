@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#052e25">
+  <title>Login | TSTC</title>
+  <link rel="icon" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/portal.css">
+</head>
+<body class="login-page">
+
+  <div class="login-wrap">
+    <!-- Panel kiri: gambar + sambutan (disembunyikan di HP) -->
+    <aside class="login-side">
+      <a href="index.html" class="brand">
+        <img src="images/logo.png" alt="TSTC logo" class="brand-logo">
+        <span class="brand-text"><b>TSTC</b><small>Tazakka Science and Technology Club</small></span>
+      </a>
+      <div>
+        <h1>Ruang belajar santri TSTC</h1>
+        <p>Materi, aplikasi, pengumuman, hasil ujian, sertifikat, dan soal latihan, semuanya ada di satu tempat.</p>
+        <div class="login-chips">
+          <span>📚 Belajar</span><span>📥 Download</span><span>📝 Ujian</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Panel kanan: formulir login -->
+    <main class="login-main">
+      <div class="login-card">
+        <a href="index.html" class="back-link">← Kembali ke beranda</a>
+        <img src="images/logo.png" alt="" class="login-logo">
+        <h2>Masuk ke Portal</h2>
+        <p class="muted">Gunakan email dan password yang diberikan oleh pembina.</p>
+
+        <!-- Muncul jika js/config.js belum diisi -->
+        <div class="alert" id="alertConfig" hidden>
+          ⚠️ Login belum aktif: isi <b>SUPABASE_URL</b> dan <b>SUPABASE_ANON_KEY</b> di file <b>js/config.js</b>.
+        </div>
+
+        <form id="loginForm" class="form" novalidate>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" autocomplete="username" placeholder="nama@email.com">
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="pw-wrap">
+              <input type="password" id="password" autocomplete="current-password" placeholder="••••••••">
+              <button type="button" class="pw-toggle" id="pwToggle" aria-label="Tampilkan password">👁️</button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-green btn-block" id="loginBtn">Masuk</button>
+          <p id="loginInfo" class="form-info"></p>
+        </form>
+
+        <p class="login-note">Belum punya akun? <a href="daftar.html"><b>Daftar di sini</b></a></p>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script>
+    // ===== LOGIN =====
+    const form = document.getElementById("loginForm");
+    const info = document.getElementById("loginInfo");
+    const btn = document.getElementById("loginBtn");
+
+    // Ke halaman tujuan setelah login (misal portal.html#ujian), default portal.html
+    const tujuan = sessionStorage.getItem("tujuan") || "portal.html";
+
+    if (!db) {
+      document.getElementById("alertConfig").hidden = false;
+    } else {
+      // Sudah login? langsung ke portal
+      db.auth.getSession().then(function (res) {
+        if (res.data.session) location.replace(tujuan);
+      });
+    }
+
+    // Tampilkan / sembunyikan password
+    document.getElementById("pwToggle").addEventListener("click", function () {
+      const pw = document.getElementById("password");
+      pw.type = pw.type === "password" ? "text" : "password";
+      this.textContent = pw.type === "password" ? "👁️" : "🙈";
+    });
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!db) return tampil("Login belum diaktifkan oleh admin (config.js belum diisi).", "error");
+      if (!email || !password) return tampil("Email dan password wajib diisi.", "error");
+
+      btn.disabled = true;
+      btn.textContent = "Memproses...";
+      const { error } = await db.auth.signInWithPassword({ email: email, password: password });
+      btn.disabled = false;
+      btn.textContent = "Masuk";
+
+      if (error) {
+        const pesan = /invalid/i.test(error.message)
+          ? "Email atau password salah."
+          : "Gagal masuk: " + error.message;
+        return tampil(pesan, "error");
+      }
+      tampil("Berhasil! Mengalihkan...", "success");
+      sessionStorage.removeItem("tujuan");
+      location.replace(tujuan);
+    });
+
+    function tampil(teks, jenis) { info.textContent = teks; info.className = "form-info " + jenis; }
+  </script>
+</body>
+</html>
