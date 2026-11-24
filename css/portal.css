@@ -114,7 +114,7 @@
 /* --- Tab bawah (HP / iPad tegak) --- */
 .tabbar {
   position: fixed; left: 0.8rem; right: 0.8rem; bottom: 0.8rem; z-index: 40;
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow-lg);
@@ -248,3 +248,9 @@
   .modal { align-items: center; }
   .modal-card { border-radius: 26px; }
 }
+
+/* --- Label status anggota --- */
+.file .txt .pill, .pill { display: inline; font-weight: 800; font-size: 0.7rem; padding: 0.1rem 0.5rem; border-radius: 999px; }
+.pill.ok { background: var(--g-100); color: var(--g-700); }
+.pill.wait { background: var(--gold-soft); color: #8a5d00; }
+.file .avatar { width: 46px; height: 46px; border-radius: 14px; font-size: 1.1rem; }
