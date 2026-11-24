@@ -38,6 +38,7 @@
 
       <div class="header-actions">
         <!-- Tulisan tombol berubah menjadi "Portal" jika sudah login -->
+        <a href="daftar.html" class="btn btn-ghost btn-sm js-daftar-btn hide-phone">Daftar</a>
         <a href="login.html" class="btn btn-gold btn-sm js-login-btn">Login</a>
         <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
       </div>
@@ -56,6 +57,7 @@
     <a href="portal.html#download">📥 Download <span class="lock">🔒</span></a>
     <a href="portal.html#ujian">📝 Ujian <span class="lock">🔒</span></a>
     <a href="#contact">Contact</a>
+    <a href="daftar.html" class="btn btn-ghost js-daftar-btn">Daftar gratis</a>
     <a href="login.html" class="btn btn-gold js-login-btn">Login</a>
   </div>
 
@@ -235,12 +237,12 @@
       <div class="container">
         <div class="section-head center">
           <span class="kicker">Area Anggota</span>
-          <h2 class="section-title">Khusus santri &amp; pembina TSTC</h2>
-          <p class="section-lead">Login untuk mengakses materi belajar, file unduhan, dan ujian.</p>
+          <h2 class="section-title">Daftar gratis, belajar tanpa batas</h2>
+          <p class="section-lead">Siapa pun bisa mendaftar. Menu Download gratis untuk anggota; Belajar &amp; Ujian dengan langganan Premium.</p>
         </div>
         <div class="member-grid">
           <a href="portal.html#belajar" class="member-card">
-            <span class="badge-lock">🔒 Login</span>
+            <span class="badge-lock">⭐ Premium</span>
             <div class="icon">📚</div>
             <h3>Belajar</h3>
             <p>Materi dan aplikasi untuk setiap mata pelajaran sains.</p>
@@ -248,7 +250,7 @@
             <span class="go">Buka →</span>
           </a>
           <a href="portal.html#download" class="member-card">
-            <span class="badge-lock">🔒 Login</span>
+            <span class="badge-lock free">✓ Gratis</span>
             <div class="icon">📥</div>
             <h3>Download</h3>
             <p>Informasi resmi dan dokumen untuk anggota.</p>
@@ -256,13 +258,29 @@
             <span class="go">Buka →</span>
           </a>
           <a href="portal.html#ujian" class="member-card">
-            <span class="badge-lock">🔒 Login</span>
+            <span class="badge-lock">⭐ Premium</span>
             <div class="icon">📝</div>
             <h3>Ujian</h3>
             <p>Bahan latihan dan soal ujian dari pembina.</p>
             <ul><li>Latihan Soal &amp; Pembahasan</li><li>Soal Ujian</li></ul>
             <span class="go">Buka →</span>
           </a>
+        </div>
+
+        <!-- Harga -->
+        <div class="pricing">
+          <div class="price-card">
+            <span class="plan-name">Anggota</span>
+            <div class="price"><b>Gratis</b></div>
+            <ul><li>✓ Akun portal TSTC</li><li>✓ Pengumuman</li><li>✓ Hasil ujian &amp; sertifikat</li></ul>
+            <a href="daftar.html" class="btn btn-light js-daftar-btn">Daftar gratis</a>
+          </div>
+          <div class="price-card featured">
+            <span class="plan-name">⭐ Premium</span>
+            <div class="price"><b>Rp25.000</b><span>/bulan</span></div>
+            <ul><li>✓ Semua fitur Anggota</li><li>✓ Materi &amp; aplikasi 4 mata pelajaran</li><li>✓ Latihan soal + pembahasan</li><li>✓ Soal ujian</li></ul>
+            <a href="portal.html#langganan" class="btn btn-gold">Langganan sekarang</a>
+          </div>
         </div>
       </div>
     </section>
@@ -387,6 +405,7 @@
           <a href="portal.html#belajar">Belajar</a>
           <a href="portal.html#download">Download</a>
           <a href="portal.html#ujian">Ujian</a>
+          <a href="daftar.html">Daftar</a>
           <a href="login.html">Login</a>
         </div>
       </div>
