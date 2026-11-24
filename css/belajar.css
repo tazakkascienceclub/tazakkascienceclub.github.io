@@ -98,3 +98,8 @@
 @media (prefers-reduced-motion: reduce) {
   .folder, .file { animation: none; }
 }
+/* Sembunyikan logo Pondok Modern Tazakka di header */
+.logo-tazakka { display: none; }
+@media (min-width: 1000px) {
+  .brand { flex: 1 1 auto; }
+}
