@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#052e25">
+  <title>Portal Anggota | TSTC</title>
+  <link rel="icon" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/portal.css">
+</head>
+<body class="portal">
+
+  <!-- ===== Sidebar (laptop / iPad mendatar) ===== -->
+  <aside class="side">
+    <a href="index.html" class="brand">
+      <img src="images/logo.png" alt="TSTC logo" class="brand-logo">
+      <span class="brand-text"><b>TSTC</b><small>Portal Anggota</small></span>
+    </a>
+    <nav class="side-nav">
+      <a href="#" data-menu=""><span class="ic">🏠</span> Dashboard</a>
+      <a href="#belajar" data-menu="belajar"><span class="ic">📚</span> Belajar</a>
+      <a href="#download" data-menu="download"><span class="ic">📥</span> Download</a>
+      <a href="#ujian" data-menu="ujian"><span class="ic">📝</span> Ujian</a>
+      <div class="side-sep"></div>
+      <a href="index.html"><span class="ic">🌐</span> Website utama</a>
+    </nav>
+    <div class="side-user">
+      <div class="user-row">
+        <span class="avatar js-avatar">?</span>
+        <div class="user-meta"><b class="js-nama">Memuat…</b><span class="role js-role">SANTRI</span></div>
+      </div>
+      <button class="btn-logout js-logout">Keluar</button>
+    </div>
+  </aside>
+
+  <!-- ===== Bar atas (HP / iPad tegak) ===== -->
+  <header class="topbar">
+    <a href="index.html" class="brand">
+      <img src="images/logo.png" alt="TSTC logo" class="brand-logo">
+      <span class="brand-text"><b>TSTC</b><small>Portal Anggota</small></span>
+    </a>
+    <span class="avatar js-avatar">?</span>
+    <button class="btn-logout js-logout">Keluar</button>
+  </header>
+
+  <!-- ===== Isi halaman (diisi oleh js/portal.js) ===== -->
+  <main class="portal-main" id="app">
+    <p class="loading">Memeriksa login…</p>
+  </main>
+
+  <!-- ===== Tab bawah (HP / iPad tegak) ===== -->
+  <nav class="tabbar">
+    <a href="#" data-menu=""><span class="ic">🏠</span>Dashboard</a>
+    <a href="#belajar" data-menu="belajar"><span class="ic">📚</span>Belajar</a>
+    <a href="#download" data-menu="download"><span class="ic">📥</span>Download</a>
+    <a href="#ujian" data-menu="ujian"><span class="ic">📝</span>Ujian</a>
+  </nav>
+
+  <!-- ===== Jendela tambah file (khusus admin) ===== -->
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Tambah ke <span id="modalFolder"></span></h3>
+        <button class="modal-close" id="modalClose" aria-label="Tutup">✕</button>
+      </div>
+
+      <div class="seg">
+        <button type="button" class="active" data-sumber="file">📎 Unggah file</button>
+        <button type="button" data-sumber="link">🔗 Tautan / link</button>
+      </div>
+
+      <form id="uploadForm" class="form" novalidate>
+        <div class="field">
+          <label for="upJudul">Judul</label>
+          <input id="upJudul" placeholder="Contoh: Bab 1 - Eksponen">
+        </div>
+        <div class="field">
+          <label for="upKet">Keterangan (opsional)</label>
+          <input id="upKet" placeholder="Contoh: Ringkasan materi + contoh soal">
+        </div>
+        <div class="field" id="boxFile">
+          <label for="upFile">Pilih file (PDF, Word, PowerPoint, gambar)</label>
+          <input id="upFile" type="file">
+        </div>
+        <div class="field" id="boxLink" hidden>
+          <label for="upLink">Alamat link</label>
+          <input id="upLink" type="url" placeholder="https://drive.google.com/...">
+        </div>
+        <div class="field">
+          <label for="upJenis">Jenis</label>
+          <select id="upJenis">
+            <option value="auto">Otomatis</option>
+            <option value="pdf">📄 PDF</option>
+            <option value="dokumen">📝 Dokumen</option>
+            <option value="slide">📊 Slide</option>
+            <option value="gambar">🖼️ Gambar</option>
+            <option value="video">🎬 Video</option>
+            <option value="web">🌐 Web / Aplikasi</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-green btn-block" id="upBtn">Simpan</button>
+        <p class="form-info" id="upInfo"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/portal.js"></script>
+</body>
+</html>

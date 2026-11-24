@@ -4,139 +4,174 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Tazakka Science and Technology Club (TSTC) - STEM community of Pondok Modern Tazakka, Batang, Central Java, Indonesia.">
+  <meta name="theme-color" content="#052e25">
   <title>Tazakka Science and Technology Club (TSTC)</title>
   <link rel="icon" href="images/logo.png">
+  <!-- Huruf modern dari Google Fonts (gratis) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- ================= HEADER & NAVIGASI ================= -->
-  <header class="header">
+  <!-- ================= HEADER ================= -->
+  <header class="header" id="header">
     <div class="container header-inner">
       <a href="#home" class="brand">
         <img src="images/logo.png" alt="TSTC logo" class="brand-logo">
-        <span>Tazakka Science and Technology Club</span>
+        <span class="brand-text">
+          <b>TSTC</b>
+          <small>Tazakka Science and Technology Club</small>
+        </span>
       </a>
 
-      <!-- Tombol menu (hanya muncul di layar kecil) -->
-      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
-
       <nav class="nav" id="nav">
-        <a href="#home">Home</a>
         <a href="#about">About</a>
-        <a href="#vision">Vision &amp; Mission</a>
+        <a href="#vision">Vision</a>
         <a href="#programs">Programs</a>
         <a href="#achievements">Achievements</a>
-        <a href="#roadmap">Roadmap</a>
         <a href="#gallery">Gallery</a>
-        <a href="belajar.html">Belajar</a>
+        <a href="#member">Anggota <span class="lock">🔒</span></a>
         <a href="#contact">Contact</a>
       </nav>
+
+      <div class="header-actions">
+        <!-- Tulisan tombol berubah menjadi "Portal" jika sudah login -->
+        <a href="login.html" class="btn btn-gold btn-sm js-login-btn">Login</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+      </div>
     </div>
   </header>
 
+  <!-- Menu untuk HP / iPad tegak -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#vision">Vision &amp; Mission</a>
+    <a href="#programs">Programs</a>
+    <a href="#achievements">Achievements</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#gallery">Gallery</a>
+    <a href="portal.html#belajar">📚 Belajar <span class="lock">🔒</span></a>
+    <a href="portal.html#download">📥 Download <span class="lock">🔒</span></a>
+    <a href="portal.html#ujian">📝 Ujian <span class="lock">🔒</span></a>
+    <a href="#contact">Contact</a>
+    <a href="login.html" class="btn btn-gold js-login-btn">Login</a>
+  </div>
+
   <main>
 
-    <!-- ================= HOME / BERANDA ================= -->
+    <!-- ================= HOME ================= -->
     <section id="home" class="hero">
-      <div class="container hero-content">
-        <p class="hero-tag">Pondok Modern Tazakka · Batang, Central Java</p>
-        <h1>Tazakka Science and Technology Club</h1>
-        <p class="hero-sub">Empowering young innovators for a sustainable future through research, technology, and STEM education.</p>
-        <div class="hero-buttons">
-          <a href="#about" class="btn btn-gold">Discover TSTC</a>
-          <a href="#gallery" class="btn btn-outline">View Gallery</a>
+      <span class="blob blob-1"></span>
+      <span class="blob blob-2"></span>
+      <div class="container">
+        <div class="hero-content">
+          <span class="eyebrow"><span class="dot">★</span> Pondok Modern Tazakka · Batang, Central Java</span>
+          <h1>Empowering <span class="accent">Young Innovators</span> for a Sustainable Future</h1>
+          <p class="hero-sub">Tazakka Science and Technology Club — a STEM community where santri learn through discovery, build solutions with technology, and grow innovation through research.</p>
+          <div class="hero-buttons">
+            <a href="#about" class="btn btn-gold">Discover TSTC →</a>
+            <a href="#gallery" class="btn btn-ghost">View Gallery</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat"><b>575+</b><span>Club members</span></div>
+            <div class="hero-stat"><b>10</b><span>Awards 2025–2026</span></div>
+            <div class="hero-stat"><b>4</b><span>Gold medals</span></div>
+          </div>
         </div>
       </div>
+      <span class="scroll-hint" aria-hidden="true"></span>
     </section>
 
-    <!-- ================= ABOUT / TENTANG ================= -->
+    <!-- ================= ABOUT ================= -->
     <section id="about" class="section">
-      <div class="container">
-        <h2 class="section-title">About TSTC</h2>
-        <div class="about-grid">
-          <div>
-            <p>Tazakka Science and Technology Club (TSTC) is a science and technology development community within Pondok Modern Tazakka, Batang Regency, Central Java, Indonesia. TSTC serves as a platform for santri to explore scientific knowledge, develop technological competencies, conduct research, and formulate innovative solutions to real-world problems in their surrounding environment.</p>
-            <p>TSTC activities integrate Science, Technology, Engineering, and Mathematics (STEM) through project-based learning, experimentation, research, prototype development, and digital technologies. The club is not solely oriented toward competition results, but toward building a scientific culture and twenty-first-century competencies: critical thinking, creativity, problem solving, communication, collaboration, and independent learning.</p>
-            <p>TSTC is founded on the principle that <strong>science is learned through discovery, technology is employed to provide solutions, and innovation is developed through systematic testing and evaluation.</strong> Mistakes in experiments are seen as part of the scientific process, building curiosity, precision, objectivity, responsibility, and perseverance.</p>
-          </div>
+      <div class="container about-grid">
+        <div class="about-photos">
+          <img class="p1" src="images/foto-01.jpg" alt="TSTC team at I2ASPO & NASPO 2025">
+          <img class="p2" src="images/foto-28.jpg" alt="Santri assembling robot kits">
+          <div class="about-badge"><span class="em">🏆</span> Gold Medalist<br>IIIEX 2026</div>
+        </div>
 
-          <!-- Tabel identitas klub -->
-          <table class="identity">
-            <tr><th>Name</th><td>Tazakka Science and Technology Club</td></tr>
-            <tr><th>Acronym</th><td>TSTC</td></tr>
-            <tr><th>Institution</th><td>Pondok Modern Tazakka</td></tr>
-            <tr><th>Location</th><td>Batang Regency, Central Java, Indonesia</td></tr>
-            <tr><th>Field</th><td>Science, Technology, Engineering, and Mathematics (STEM)</td></tr>
-            <tr><th>Focus</th><td>Research, Innovation, Technology, and STEM Education</td></tr>
-            <tr><th>Participants</th><td>Santri / Learners</td></tr>
-            <tr><th>Approach</th><td>Research-Based &amp; Project-Based Learning</td></tr>
-            <tr><th>Orientation</th><td>Scientific Literacy, Innovation, Collaboration, and Sustainability</td></tr>
-          </table>
+        <div class="about-text">
+          <span class="kicker">About TSTC</span>
+          <h2 class="section-title">A home for scientific curiosity</h2>
+          <p>Tazakka Science and Technology Club (TSTC) is a science and technology development community within Pondok Modern Tazakka, Batang Regency, Central Java, Indonesia. It is a platform for santri to explore scientific knowledge, develop technological competencies, conduct research, and formulate innovative solutions to real-world problems.</p>
+          <p>Activities integrate STEM through project-based learning, experimentation, research, and prototype development — building critical thinking, creativity, problem solving, communication, collaboration, and independent learning.</p>
+          <div class="quote">Science is learned through discovery, technology is employed to provide solutions, and innovation is developed through systematic testing and evaluation.</div>
+          <div class="info-grid">
+            <div class="info"><small>Institution</small><span>Pondok Modern Tazakka</span></div>
+            <div class="info"><small>Location</small><span>Batang, Central Java</span></div>
+            <div class="info"><small>Field</small><span>STEM</span></div>
+            <div class="info"><small>Approach</small><span>Research &amp; Project-Based</span></div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ================= VISION & MISSION ================= -->
-    <section id="vision" class="section section-alt">
+    <section id="vision" class="section section-soft">
       <div class="container">
-        <h2 class="section-title">Vision &amp; Mission</h2>
-
-        <blockquote class="vision">
-          <span class="label">Our Vision</span>
-          “To become a science and technology community that develops a generation of young people who think scientifically, innovate collaboratively, and are capable of producing STEM-based solutions that benefit society and the environment.”
-        </blockquote>
+        <div class="vision-card">
+          <span class="kicker">Our Vision</span>
+          <p>To become a science and technology community that develops a generation of young people who think scientifically, innovate collaboratively, and produce STEM-based solutions that benefit society and the environment.</p>
+        </div>
 
         <h3 class="sub-title">Our Mission</h3>
-        <ol class="mission">
-          <li>To develop scientific thinking skills through research, experimentation, observation, and data analysis.</li>
-          <li>To strengthen STEM competencies through practical activities and projects involving programming, electronics, IoT, robotics, and other technologies.</li>
-          <li>To foster creativity and innovation in designing solutions to real-world problems.</li>
-          <li>To establish a systematic, well-documented, and sustainable research culture.</li>
-          <li>To develop collaboration and scientific communication skills through teamwork, presentations, exhibitions, and knowledge-sharing activities.</li>
-          <li>To provide santri with opportunities to produce works that can be further developed, tested, replicated, and utilized.</li>
-          <li>To establish networks with schools, universities, science communities, research institutions, industries, and relevant organizations.</li>
-          <li>To promote the sustainability of STEM activities through student succession, knowledge documentation, module development, and strengthening of club resources.</li>
-        </ol>
+        <div class="mission-grid">
+          <div class="mission"><span class="num">01</span><p>Develop scientific thinking skills through research, experimentation, observation, and data analysis.</p></div>
+          <div class="mission"><span class="num">02</span><p>Strengthen STEM competencies through practical projects in programming, electronics, IoT, robotics, and other technologies.</p></div>
+          <div class="mission"><span class="num">03</span><p>Foster creativity and innovation in designing solutions to real-world problems.</p></div>
+          <div class="mission"><span class="num">04</span><p>Establish a systematic, well-documented, and sustainable research culture.</p></div>
+          <div class="mission"><span class="num">05</span><p>Develop collaboration and scientific communication through teamwork, presentations, exhibitions, and knowledge sharing.</p></div>
+          <div class="mission"><span class="num">06</span><p>Give santri opportunities to produce works that can be developed, tested, replicated, and utilized.</p></div>
+          <div class="mission"><span class="num">07</span><p>Build networks with schools, universities, science communities, research institutions, and industries.</p></div>
+          <div class="mission"><span class="num">08</span><p>Sustain STEM activities through student succession, documentation, module development, and club resources.</p></div>
+        </div>
 
         <h3 class="sub-title">Values We Develop</h3>
         <div class="values">
-          <div class="value"><strong>Curiosity</strong><span>Asking questions and exploring new phenomena</span></div>
-          <div class="value"><strong>Scientific Thinking</strong><span>Using evidence, data, and scientific methods</span></div>
-          <div class="value"><strong>Creativity</strong><span>Generating diverse and alternative solutions</span></div>
-          <div class="value"><strong>Innovation</strong><span>Developing new solutions or improving existing ones</span></div>
-          <div class="value"><strong>Collaboration</strong><span>Working in teams and sharing knowledge</span></div>
-          <div class="value"><strong>Problem Solving</strong><span>Identifying problems and solving them systematically</span></div>
-          <div class="value"><strong>Persistence</strong><span>Repeated testing, evaluation, and refinement</span></div>
-          <div class="value"><strong>Responsibility</strong><span>Using science and technology responsibly</span></div>
+          <span class="value">🔍 Curiosity</span>
+          <span class="value">🧪 Scientific Thinking</span>
+          <span class="value">🎨 Creativity</span>
+          <span class="value">💡 Innovation</span>
+          <span class="value">🤝 Collaboration</span>
+          <span class="value">🧩 Problem Solving</span>
+          <span class="value">🔁 Persistence</span>
+          <span class="value">🛡️ Responsibility</span>
         </div>
       </div>
     </section>
 
-    <!-- ================= PROGRAMS / BIDANG & KEGIATAN ================= -->
+    <!-- ================= PROGRAMS ================= -->
     <section id="programs" class="section">
       <div class="container">
-        <h2 class="section-title">Areas of Focus</h2>
-        <div class="cards">
-          <div class="card"><div class="icon">🔬</div><h3>Scientific Research</h3><p>Research and experimentation to understand scientific phenomena and generate reliable data and findings.</p></div>
-          <div class="card"><div class="icon">📡</div><h3>Internet of Things</h3><p>Systems based on sensors, microcontrollers, connectivity, and data processing for monitoring and automation.</p></div>
-          <div class="card"><div class="icon">🤖</div><h3>Robotics &amp; Automation</h3><p>Design and development of robots and automated systems programmed to perform specific tasks.</p></div>
-          <div class="card"><div class="icon">🧠</div><h3>Artificial Intelligence</h3><p>Exploring AI in education, robotics, data analysis, and problem solving.</p></div>
-          <div class="card"><div class="icon">⚡</div><h3>Electronics &amp; Engineering</h3><p>Electronic circuits, control systems, automated devices, and prototypes based on engineering design.</p></div>
-          <div class="card"><div class="icon">🌱</div><h3>Environmental &amp; Sustainable Tech</h3><p>Hydroponics, aquaponics, water and energy management, and sensor-based agriculture.</p></div>
-          <div class="card"><div class="icon">📚</div><h3>STEM Education</h3><p>STEM learning activities, experiments, and instructional modules to strengthen scientific literacy.</p></div>
+        <div class="section-head">
+          <span class="kicker">Programs</span>
+          <h2 class="section-title">Areas of focus</h2>
+          <p class="section-lead">Seven fields where santri research, build, and learn together.</p>
+        </div>
+
+        <div class="bento">
+          <div class="feature big"><div class="icon">🔬</div><h3>Scientific Research</h3><p>Research and experimentation to understand scientific phenomena and generate reliable data and findings — the heart of every TSTC project.</p></div>
+          <div class="feature"><div class="icon">📡</div><h3>Internet of Things</h3><p>Sensors, microcontrollers, and connectivity for monitoring and automation.</p></div>
+          <div class="feature"><div class="icon">🤖</div><h3>Robotics &amp; Automation</h3><p>Robots and automated systems programmed for specific tasks.</p></div>
+          <div class="feature"><div class="icon">🧠</div><h3>Artificial Intelligence</h3><p>AI in education, robotics, data analysis, and problem solving.</p></div>
+          <div class="feature"><div class="icon">⚡</div><h3>Electronics &amp; Engineering</h3><p>Circuits, control systems, and engineered prototypes.</p></div>
+          <div class="feature wide"><div class="icon">🌱</div><h3>Sustainable Technology</h3><p>Hydroponics, aquaponics, water and energy management.</p></div>
+          <div class="feature wide"><div class="icon">📚</div><h3>STEM Education</h3><p>Experiments and modules that strengthen scientific literacy.</p></div>
         </div>
 
         <h3 class="sub-title">Our Learning Cycle</h3>
         <div class="cycle">
-          <div class="step"><span>1</span><strong>Identify</strong><p>Observe the environment and find problems to investigate.</p></div>
-          <div class="step"><span>2</span><strong>Research</strong><p>Literature review, observation, interviews, and data collection.</p></div>
-          <div class="step"><span>3</span><strong>Design</strong><p>Turn ideas into systems, circuits, algorithms, or experiments.</p></div>
-          <div class="step"><span>4</span><strong>Build</strong><p>Build prototypes or set up experiments.</p></div>
-          <div class="step"><span>5</span><strong>Test</strong><p>Test with clear procedures to gather data.</p></div>
-          <div class="step"><span>6</span><strong>Analyze</strong><p>Process data to assess performance and effectiveness.</p></div>
-          <div class="step"><span>7</span><strong>Improve</strong><p>Evaluate and refine the design or method.</p></div>
-          <div class="step"><span>8</span><strong>Present</strong><p>Share results through reports, exhibitions, and competitions.</p></div>
+          <div class="step"><span class="no">01</span><strong>Identify</strong><p>Find real problems to investigate.</p></div>
+          <div class="step"><span class="no">02</span><strong>Research</strong><p>Literature, observation, and data.</p></div>
+          <div class="step"><span class="no">03</span><strong>Design</strong><p>Systems, circuits, or experiments.</p></div>
+          <div class="step"><span class="no">04</span><strong>Build</strong><p>Prototypes and experimental setups.</p></div>
+          <div class="step"><span class="no">05</span><strong>Test</strong><p>Clear procedures to gather data.</p></div>
+          <div class="step"><span class="no">06</span><strong>Analyze</strong><p>Assess performance and effectiveness.</p></div>
+          <div class="step"><span class="no">07</span><strong>Improve</strong><p>Evaluate and refine the design.</p></div>
+          <div class="step"><span class="no">08</span><strong>Present</strong><p>Reports, exhibitions, competitions.</p></div>
         </div>
 
         <h3 class="sub-title">Supporting Activities</h3>
@@ -144,18 +179,22 @@
           <li>STEM Workshops (IoT, Arduino/ESP32, Robotics, AI)</li>
           <li>Science Experiments</li>
           <li>Research Training</li>
-          <li>Science Competitions &amp; Exhibitions</li>
+          <li>Competitions &amp; Exhibitions</li>
           <li>Peer Mentoring</li>
         </ul>
       </div>
     </section>
 
-    <!-- ================= ACHIEVEMENTS / PRESTASI ================= -->
+    <!-- ================= ACHIEVEMENTS ================= -->
     <section id="achievements" class="section section-dark">
       <div class="container">
-        <h2 class="section-title light">Our Achievements</h2>
+        <div class="section-head">
+          <span class="kicker">Achievements</span>
+          <h2 class="section-title">Results that speak</h2>
+          <p class="section-lead">Growth of the club and recognition at national and international events.</p>
+        </div>
 
-        <!-- Angka-angka akan "berhitung" naik lewat JavaScript (data-target) -->
+        <!-- Angka berhitung naik (data-target) -->
         <div class="stats">
           <div class="stat"><b data-target="575">0</b><span>Club members</span></div>
           <div class="stat"><b data-target="526">0</b><span>Students involved</span></div>
@@ -167,30 +206,23 @@
           <div class="stat"><b data-target="11">0</b><span>Learning modules</span></div>
         </div>
 
-        <h3 class="sub-title light">Honors &amp; Recognition</h3>
-        <div class="table-wrap">
-          <table class="honors">
-            <thead>
-              <tr><th>Year</th><th>Event / Competition</th><th>Award</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>2026</td><td>IoT and Application Category – Indonesia International Invention Expo</td><td>Gold Medal</td></tr>
-              <tr><td>2026</td><td>Energy Category – ASEAN Innovative Science Environmental and Entrepreneur Fair</td><td>Gold Medal &amp; Semi Grand Award</td></tr>
-              <tr><td>2025</td><td>Waste Treatment Category – Indonesia International Applied Science Project Olympiad</td><td>Gold Medal</td></tr>
-              <tr><td>2025</td><td>Environment Category – Indonesia International Invention Expo</td><td>Gold Medal</td></tr>
-              <tr><td>2025</td><td>Global Youth Innovation Summit 2025 – Malaysia</td><td>1st Best Team</td></tr>
-              <tr><td>2025</td><td>Global Youth Innovation Summit 2025 – Malaysia</td><td>2nd Best SDGs Project Presentation</td></tr>
-              <tr><td>2025</td><td>Global Youth Innovation Summit 2025 – Malaysia</td><td>3rd Best SDGs Project Video</td></tr>
-              <tr><td>2025</td><td>International Talented Mathematics Contest (ITMC) – Thailand</td><td>Bronze</td></tr>
-              <tr><td>2025</td><td>Innovation Science Competition – Olimpiade Kader Ulama Intelek 100 Gontor</td><td>2nd Winner</td></tr>
-              <tr><td>2025</td><td>Line Follower Robotic – Olimpiade Kader Ulama Intelek 100 Gontor</td><td>2nd Winner</td></tr>
-            </tbody>
-          </table>
+        <h3 class="sub-title">Honors &amp; Recognition</h3>
+        <div class="honors">
+          <div class="honor"><span class="medal">🥇</span><div class="txt"><strong>Gold Medal</strong><span>IoT &amp; Application – Indonesia International Invention Expo</span></div><span class="year">2026</span></div>
+          <div class="honor"><span class="medal">🥇</span><div class="txt"><strong>Gold Medal &amp; Semi Grand Award</strong><span>Energy – ASEAN Innovative Science Environmental and Entrepreneur Fair</span></div><span class="year">2026</span></div>
+          <div class="honor"><span class="medal">🥇</span><div class="txt"><strong>Gold Medal</strong><span>Waste Treatment – Indonesia International Applied Science Project Olympiad</span></div><span class="year">2025</span></div>
+          <div class="honor"><span class="medal">🥇</span><div class="txt"><strong>Gold Medal</strong><span>Environment – Indonesia International Invention Expo</span></div><span class="year">2025</span></div>
+          <div class="honor"><span class="medal">🏆</span><div class="txt"><strong>1st Best Team</strong><span>Global Youth Innovation Summit 2025 – Malaysia</span></div><span class="year">2025</span></div>
+          <div class="honor"><span class="medal">🥈</span><div class="txt"><strong>2nd Best SDGs Project Presentation</strong><span>Global Youth Innovation Summit 2025 – Malaysia</span></div><span class="year">2025</span></div>
+          <div class="honor"><span class="medal">🥉</span><div class="txt"><strong>3rd Best SDGs Project Video</strong><span>Global Youth Innovation Summit 2025 – Malaysia</span></div><span class="year">2025</span></div>
+          <div class="honor"><span class="medal">🥉</span><div class="txt"><strong>Bronze</strong><span>International Talented Mathematics Contest (ITMC) – Thailand</span></div><span class="year">2025</span></div>
+          <div class="honor"><span class="medal">🥈</span><div class="txt"><strong>2nd Winner</strong><span>Innovation Science Competition – Olimpiade Kader Ulama Intelek 100 Gontor</span></div><span class="year">2025</span></div>
+          <div class="honor"><span class="medal">🥈</span><div class="txt"><strong>2nd Winner</strong><span>Line Follower Robotic – Olimpiade Kader Ulama Intelek 100 Gontor</span></div><span class="year">2025</span></div>
         </div>
 
-        <h3 class="sub-title light">Collaboration &amp; Networking</h3>
+        <h3 class="sub-title">Collaboration &amp; Networking</h3>
         <div class="partners">
-          <div class="partner"><strong>Indonesian Young Scientist Association (IYSA)</strong><span>STEM outreach &amp; community engagement</span></div>
+          <div class="partner"><strong>Indonesian Young Scientist Association</strong><span>STEM outreach &amp; community engagement</span></div>
           <div class="partner"><strong>Diponegoro University</strong><span>Research mentorship &amp; advisory</span></div>
           <div class="partner"><strong>Gadjah Mada University</strong><span>Research mentorship &amp; advisory</span></div>
           <div class="partner"><strong>Universitas Indonesia</strong><span>Research mentorship &amp; advisory</span></div>
@@ -198,29 +230,71 @@
       </div>
     </section>
 
-    <!-- ================= ROADMAP 2026–2033 ================= -->
-    <section id="roadmap" class="section">
+    <!-- ================= AREA ANGGOTA (perlu login) ================= -->
+    <section id="member" class="section section-soft">
       <div class="container">
-        <h2 class="section-title">Sustainability Roadmap 2026–2033</h2>
-        <div class="timeline">
-          <div class="milestone"><span class="year">2026</span><h3>Foundation</h3><p>System documentation, project repository &amp; database, STEM curriculum integration, member training.</p></div>
-          <div class="milestone"><span class="year">2027</span><h3>Expansion</h3><p>Project portfolio scaling, peer &amp; junior mentorship, STEM workshops, national competitions.</p></div>
-          <div class="milestone"><span class="year">2028</span><h3>Collaboration</h3><p>University and industry partnerships, inter-school science club networks, research institutions.</p></div>
-          <div class="milestone"><span class="year">2029</span><h3>Regional Engagement</h3><p>International scientific collaboration, Asia-Pacific science club network, joint STEM initiatives.</p></div>
-          <div class="milestone"><span class="year">2030</span><h3>Institutionalization</h3><p>In-house STEM incubation center, research publishing, self-sustaining revenue, STEM certification.</p></div>
-          <div class="milestone"><span class="year">2031</span><h3>Global Leadership</h3><p>Global student exchange, international patent &amp; IP filing, global STEM summits, research fellowships.</p></div>
-          <div class="milestone"><span class="year">2032</span><h3>Commercialization</h3><p>Tech transfer, national educational advisory, alumni-led venture fund, smart campus integration.</p></div>
-          <div class="milestone"><span class="year">2033</span><h3>Sustainable Legacy</h3><p>Global social impact, STEM policy &amp; advocacy hub, green tech excellence, endowed research fund.</p></div>
+        <div class="section-head center">
+          <span class="kicker">Area Anggota</span>
+          <h2 class="section-title">Khusus santri &amp; pembina TSTC</h2>
+          <p class="section-lead">Login untuk mengakses materi belajar, file unduhan, dan ujian.</p>
+        </div>
+        <div class="member-grid">
+          <a href="portal.html#belajar" class="member-card">
+            <span class="badge-lock">🔒 Login</span>
+            <div class="icon">📚</div>
+            <h3>Belajar</h3>
+            <p>Materi dan aplikasi untuk setiap mata pelajaran sains.</p>
+            <ul><li>Matematika</li><li>Fisika</li><li>Kimia</li><li>Biologi</li></ul>
+            <span class="go">Buka →</span>
+          </a>
+          <a href="portal.html#download" class="member-card">
+            <span class="badge-lock">🔒 Login</span>
+            <div class="icon">📥</div>
+            <h3>Download</h3>
+            <p>Informasi resmi dan dokumen untuk anggota.</p>
+            <ul><li>Pengumuman</li><li>Hasil Ujian</li><li>Sertifikat</li></ul>
+            <span class="go">Buka →</span>
+          </a>
+          <a href="portal.html#ujian" class="member-card">
+            <span class="badge-lock">🔒 Login</span>
+            <div class="icon">📝</div>
+            <h3>Ujian</h3>
+            <p>Bahan latihan dan soal ujian dari pembina.</p>
+            <ul><li>Latihan Soal &amp; Pembahasan</li><li>Soal Ujian</li></ul>
+            <span class="go">Buka →</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- ================= PHOTO GALLERY ================= -->
-    <section id="gallery" class="section section-alt">
+    <!-- ================= ROADMAP ================= -->
+    <section id="roadmap" class="section">
       <div class="container">
-        <h2 class="section-title">Photo Gallery</h2>
+        <div class="section-head">
+          <span class="kicker">Roadmap</span>
+          <h2 class="section-title">Sustainability roadmap 2026–2033</h2>
+        </div>
+        <div class="timeline">
+          <div class="milestone"><span class="yr">2026</span><h3>Foundation</h3><p>Documentation, project repository, STEM curriculum integration, member training.</p></div>
+          <div class="milestone"><span class="yr">2027</span><h3>Expansion</h3><p>Project portfolio scaling, peer mentorship, workshops, national competitions.</p></div>
+          <div class="milestone"><span class="yr">2028</span><h3>Collaboration</h3><p>University and industry partnerships, inter-school science networks.</p></div>
+          <div class="milestone"><span class="yr">2029</span><h3>Regional Engagement</h3><p>International collaboration and an Asia-Pacific science club network.</p></div>
+          <div class="milestone"><span class="yr">2030</span><h3>Institutionalization</h3><p>STEM incubation center, research publishing, STEM certification.</p></div>
+          <div class="milestone"><span class="yr">2031</span><h3>Global Leadership</h3><p>Student exchange, IP filing, global summits, research fellowships.</p></div>
+          <div class="milestone"><span class="yr">2032</span><h3>Commercialization</h3><p>Tech transfer, educational advisory, smart campus integration.</p></div>
+          <div class="milestone"><span class="yr">2033</span><h3>Sustainable Legacy</h3><p>Global social impact, STEM advocacy hub, green tech excellence.</p></div>
+        </div>
+      </div>
+    </section>
 
-        <!-- Tombol filter: data-filter harus sama dengan data-cat pada foto -->
+    <!-- ================= GALLERY ================= -->
+    <section id="gallery" class="section section-soft">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Gallery</span>
+          <h2 class="section-title">Moments of discovery</h2>
+        </div>
+
         <div class="filters">
           <button class="filter active" data-filter="all">All</button>
           <button class="filter" data-filter="awards">Awards</button>
@@ -228,7 +302,7 @@
           <button class="filter" data-filter="learning">Learning</button>
         </div>
 
-        <!-- Untuk menambah foto: unggah ke folder images, lalu salin satu baris <img> -->
+        <!-- Menambah foto: unggah ke folder images, lalu salin satu baris <img> -->
         <div class="gallery" id="gallery-grid">
           <img src="images/foto-01.jpg" data-cat="awards" alt="TSTC team at I2ASPO & NASPO 2025, Universitas Gadjah Mada" loading="lazy">
           <img src="images/foto-02.jpg" data-cat="projects" alt="TSTC project booth at an exhibition" loading="lazy">
@@ -265,30 +339,26 @@
       </div>
     </section>
 
-    <!-- ================= CONTACT / KONTAK ================= -->
+    <!-- ================= CONTACT ================= -->
     <section id="contact" class="section">
-      <div class="container contact-grid">
-        <div>
-          <h2 class="section-title">Contact Us</h2>
-          <p><strong>Tazakka Science and Technology Club</strong><br>
-             Pondok Modern Tazakka<br>
-             Batang Regency, Central Java, Indonesia</p>
-          <p>Interested in collaboration, mentoring, or joint research? Send us a message.</p>
+      <div class="container">
+        <div class="contact-card">
+          <div class="contact-info">
+            <span class="kicker">Contact</span>
+            <h2 class="section-title">Let's collaborate</h2>
+            <p class="section-lead" style="margin-bottom:1.6rem">Interested in collaboration, mentoring, or joint research? Send us a message.</p>
+            <div class="item"><span class="ic">📍</span><div><small>Address</small><b>Pondok Modern Tazakka, Batang Regency, Central Java, Indonesia</b></div></div>
+            <div class="item"><span class="ic">🔬</span><div><small>Club</small><b>Tazakka Science and Technology Club</b></div></div>
+          </div>
+
+          <form id="contactForm" class="form" novalidate>
+            <div class="field"><label for="name">Name</label><input type="text" id="name" placeholder="Your full name"></div>
+            <div class="field"><label for="email">Email</label><input type="email" id="email" placeholder="name@example.com"></div>
+            <div class="field"><label for="message">Message</label><textarea id="message" rows="5" placeholder="Write your message"></textarea></div>
+            <button type="submit" class="btn btn-green">Send Message</button>
+            <p id="formInfo" class="form-info"></p>
+          </form>
         </div>
-
-        <form id="contactForm" class="form" novalidate>
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" placeholder="Your full name">
-
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="name@example.com">
-
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" placeholder="Write your message"></textarea>
-
-          <button type="submit" class="btn btn-green">Send Message</button>
-          <p id="formInfo" class="form-info"></p>
-        </form>
       </div>
     </section>
 
@@ -297,11 +367,34 @@
   <!-- ================= FOOTER ================= -->
   <footer class="footer">
     <div class="container">
-      <p>© 2026 Tazakka Science and Technology Club · Pondok Modern Tazakka</p>
+      <div class="footer-grid">
+        <div>
+          <a href="#home" class="brand">
+            <img src="images/logo.png" alt="TSTC logo" class="brand-logo">
+            <span class="brand-text"><b>TSTC</b><small>Tazakka Science and Technology Club</small></span>
+          </a>
+          <p>A science and technology community of Pondok Modern Tazakka, Batang, Central Java, Indonesia.</p>
+        </div>
+        <div>
+          <h4>Explore</h4>
+          <a href="#about">About</a>
+          <a href="#programs">Programs</a>
+          <a href="#achievements">Achievements</a>
+          <a href="#gallery">Gallery</a>
+        </div>
+        <div>
+          <h4>Area Anggota</h4>
+          <a href="portal.html#belajar">Belajar</a>
+          <a href="portal.html#download">Download</a>
+          <a href="portal.html#ujian">Ujian</a>
+          <a href="login.html">Login</a>
+        </div>
+      </div>
+      <div class="footer-bottom">© 2026 Tazakka Science and Technology Club · Pondok Modern Tazakka</div>
     </div>
   </footer>
 
-  <!-- Lightbox: tampilan foto besar saat foto galeri disentuh -->
+  <!-- Lightbox galeri -->
   <div class="lightbox" id="lightbox">
     <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
     <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous">‹</button>
@@ -310,6 +403,9 @@
     <p id="lbCaption"></p>
   </div>
 
+  <!-- Supabase (login) + pengaturan + interaksi -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
