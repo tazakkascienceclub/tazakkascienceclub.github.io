@@ -318,3 +318,8 @@ p { margin-bottom: 0.9rem; }
   .nav { display: flex; flex-direction: row; width: auto; gap: 1.3rem; padding: 0; }
   .gallery { grid-template-columns: repeat(4, 1fr); }
 }
+/* Sembunyikan logo Pondok Modern Tazakka di header */
+.logo-tazakka { display: none; }
+@media (min-width: 1000px) {
+  .brand { flex: 1 1 auto; }
+}
