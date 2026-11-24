@@ -3,7 +3,7 @@
 // =========================================================
 
 // Harga langganan per bulan (Rupiah)
-const HARGA_BULANAN = 25000;
+const HARGA_BULANAN = 100000;
 
 // Pilihan lama langganan (bulan) yang bisa dipilih santri
 const PILIHAN_BULAN = [1, 3, 6, 12];
