@@ -164,7 +164,8 @@ if (db) {
         b.textContent = "Portal →";
         b.href = "portal.html";
       });
-      document.querySelectorAll(".lock, .badge-lock").forEach(function (l) { l.remove(); });
+      document.querySelectorAll(".lock").forEach(function (l) { l.remove(); });
+      document.querySelectorAll(".js-daftar-btn").forEach(function (b) { b.remove(); });
     }
   });
 }

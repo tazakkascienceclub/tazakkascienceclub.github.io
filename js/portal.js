@@ -9,7 +9,7 @@
 // "bawaan" = link yang selalu tampil (tidak perlu diunggah admin).
 const MENU = {
   belajar: {
-    nama: "Belajar", ikon: "📚", warna: "#14a37f",
+    nama: "Belajar", ikon: "📚", warna: "#14a37f", premium: true,
     deskripsi: "Materi dan aplikasi per mata pelajaran",
     anak: {
       matematika: {
@@ -67,7 +67,7 @@ const MENU = {
   },
 
   ujian: {
-    nama: "Ujian", ikon: "📝", warna: "#dc2626",
+    nama: "Ujian", ikon: "📝", warna: "#dc2626", premium: true,
     deskripsi: "Latihan soal dan soal ujian",
     anak: {
       "latihan-soal": { nama: "Latihan Soal & Pembahasan", ikon: "✏️", warna: "#0b5d4b", deskripsi: "Soal latihan beserta pembahasannya" },
@@ -85,7 +85,8 @@ const BUCKET = "berkas"; // nama tempat penyimpanan file di Supabase Storage
 const app = document.getElementById("app");
 let pengguna = null;
 let isAdmin = false;
-let statusSaya = "menunggu";
+let statusSaya = "gratis";   // admin | pelanggan | gratis
+let aktifSampai = null;      // tanggal akhir langganan
 let jumlahPerFolder = {};
 
 // ---------- 2. CEK LOGIN ----------
@@ -106,20 +107,9 @@ let jumlahPerFolder = {};
   }
   pengguna = data.session.user;
 
-  // Status: admin, disetujui, atau menunggu persetujuan
-  const cek = await db.rpc("status_saya");
-  if (cek.error) {
-    // SQL pendaftaran belum dijalankan: pakai cara lama
-    const lama = await db.rpc("is_admin");
-    statusSaya = lama.data === true ? "admin" : "disetujui";
-  } else {
-    statusSaya = cek.data;
-  }
-  isAdmin = statusSaya === "admin";
-  document.querySelectorAll(".js-admin-only").forEach(function (el) { el.hidden = !isAdmin; });
-
+  // Status: admin, pelanggan (premium aktif), atau gratis
+  await muatStatus();
   isiInfoPengguna();
-  if (statusSaya === "menunggu") { halamanMenunggu(); return; }
   await hitungFile();
   window.addEventListener("hashchange", tampilkan);
   tampilkan();
@@ -139,6 +129,29 @@ document.querySelectorAll(".js-logout").forEach(function (b) {
   });
 });
 
+async function muatStatus() {
+  const cek = await db.rpc("status_saya");
+  if (cek.error) {
+    // SQL langganan belum dijalankan: semua anggota dianggap boleh akses
+    const lama = await db.rpc("is_admin");
+    statusSaya = lama.data === true ? "admin" : "pelanggan";
+  } else {
+    statusSaya = cek.data;
+  }
+  isAdmin = statusSaya === "admin";
+  const row = await db.from("anggota").select("aktif_sampai").eq("id", pengguna.id).maybeSingle();
+  aktifSampai = row.data && row.data.aktif_sampai ? new Date(row.data.aktif_sampai) : null;
+  document.querySelectorAll(".js-admin-only").forEach(function (el) { el.hidden = !isAdmin; });
+  document.querySelectorAll(".js-member-only").forEach(function (el) { el.hidden = isAdmin; });
+}
+
+function punyaAkses(node) {
+  return !node.premium || isAdmin || statusSaya === "pelanggan";
+}
+
+function rupiah(n) { return "Rp" + Number(n).toLocaleString("id-ID"); }
+function tanggal(d) { return new Date(d).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }); }
+
 function namaPengguna() {
   const meta = pengguna.user_metadata || {};
   return meta.nama || meta.name || pengguna.email.split("@")[0];
@@ -149,7 +162,8 @@ function isiInfoPengguna() {
   document.querySelectorAll(".js-nama").forEach(function (el) { el.textContent = nama; });
   document.querySelectorAll(".js-avatar").forEach(function (el) { el.textContent = nama.charAt(0).toUpperCase(); });
   document.querySelectorAll(".js-role").forEach(function (el) {
-    el.textContent = isAdmin ? "ADMIN" : statusSaya === "menunggu" ? "MENUNGGU" : "SANTRI";
+    el.textContent = isAdmin ? "ADMIN" : statusSaya === "pelanggan" ? "⭐ PREMIUM" : "GRATIS";
+    el.classList.toggle("premium", statusSaya === "pelanggan");
     el.classList.toggle("admin", isAdmin);
   });
 }
@@ -170,10 +184,13 @@ function jumlahItem(jalur, node) {
 function tampilkan() {
   const bagian = location.hash.replace("#", "").split("/").filter(Boolean);
 
-  // Halaman khusus admin: kelola anggota
-  if (bagian[0] === "anggota" && isAdmin) {
-    document.querySelectorAll("[data-menu]").forEach(function (a) { a.classList.toggle("active", a.dataset.menu === "anggota"); });
-    halamanAnggota();
+  // Halaman khusus: langganan (semua), anggota & pembayaran (admin)
+  const khusus = { langganan: halamanLangganan };
+  if (isAdmin) { khusus.anggota = halamanAnggota; khusus.pembayaran = halamanPembayaran; }
+  if (khusus[bagian[0]]) {
+    document.querySelectorAll("[data-menu]").forEach(function (a) { a.classList.toggle("active", a.dataset.menu === bagian[0]); });
+    khusus[bagian[0]]();
+    window.scrollTo({ top: 0 });
     return;
   }
   let node = null, jalur = [], warna = null;
@@ -193,7 +210,9 @@ function tampilkan() {
     a.classList.toggle("active", a.dataset.menu === (jalur[0] || ""));
   });
 
+  const menuUtama = jalur.length ? MENU[jalur[0]] : null;
   if (!node) dashboard();
+  else if (menuUtama && !punyaAkses(menuUtama)) halamanPaywall(menuUtama);
   else if (node.anak) halamanFolder(jalur, node);
   else halamanFile(jalur, node, warna);
   window.scrollTo({ top: 0 });
@@ -216,9 +235,22 @@ function jejak(jalur) {
 }
 
 function kartuFolder(href, n, jumlah, i, warna) {
+  const kunci = n.premium && !punyaAkses(n);
   return '<a class="folder" href="' + href + '" style="--warna:' + (n.warna || warna) + ';animation-delay:' + i * 0.06 + 's">' +
+    (n.premium ? '<span class="tag-premium">' + (kunci ? "🔒 Premium" : "⭐ Premium") + '</span>' : "") +
     '<span class="ic">' + n.ikon + '</span><h3>' + n.nama + '</h3><p>' + n.deskripsi + '</p>' +
-    '<span class="count">' + jumlah + ' item</span></a>';
+    '<span class="count">' + (kunci ? "Langganan " + rupiah(HARGA_BULANAN) + "/bulan" : jumlah + " item") + '</span></a>';
+}
+
+// Kotak status langganan (dipakai di dashboard)
+function kotakLangganan() {
+  if (isAdmin) return "";
+  if (statusSaya === "pelanggan") {
+    return '<a href="#langganan" class="sub-banner ok"><span class="ic">⭐</span><div><b>Premium aktif</b>' +
+      '<span>Berlaku sampai ' + (aktifSampai ? tanggal(aktifSampai) : "-") + '. Ketuk untuk memperpanjang.</span></div><span class="go">›</span></a>';
+  }
+  return '<a href="#langganan" class="sub-banner"><span class="ic">🔓</span><div><b>Buka menu Belajar &amp; Ujian</b>' +
+    '<span>Langganan Premium hanya ' + rupiah(HARGA_BULANAN) + ' per bulan.</span></div><span class="btn btn-gold btn-sm">Langganan</span></a>';
 }
 
 // ---------- 5. DASHBOARD ----------
@@ -226,6 +258,7 @@ async function dashboard() {
   let html =
     '<div class="welcome"><h1>Assalamu\'alaikum, ' + esc(namaPengguna()) + ' 👋</h1>' +
     '<p>' + (isAdmin ? "Anda masuk sebagai <b>Admin</b>: bisa menambah dan menghapus file di setiap folder." : "Selamat datang di Portal Anggota TSTC. Pilih menu untuk mulai belajar.") + '</p></div>' +
+    kotakLangganan() +
     '<div class="folder-grid">';
   Object.keys(MENU).forEach(function (k, i) {
     html += kartuFolder("#" + k, MENU[k], jumlahItem(k, MENU[k]), i);
@@ -329,61 +362,245 @@ async function hapusFile(f) {
   tampilkan();
 }
 
-// ---------- 8b. MENUNGGU PERSETUJUAN ----------
-function halamanMenunggu() {
-  document.querySelectorAll(".side-nav, .tabbar").forEach(function (el) { el.style.visibility = "hidden"; });
+// ---------- 8b. HALAMAN TERKUNCI (belum langganan) ----------
+function halamanPaywall(menu) {
   app.innerHTML =
-    '<div class="config-box"><div style="font-size:3rem">⏳</div>' +
-    '<h2>Menunggu persetujuan admin</h2>' +
-    '<p class="muted">Halo, <b>' + esc(namaPengguna()) + '</b>! Akun Anda sudah terdaftar, tetapi belum disetujui. ' +
-    'Hubungi pembina TSTC, lalu buka halaman ini lagi setelah disetujui.</p>' +
-    '<button class="btn btn-green" onclick="location.reload()">Periksa lagi</button></div>';
+    '<nav class="crumbs"><a href="#">🏠 Dashboard</a><span class="sep">›</span><span class="now">' + menu.nama + '</span></nav>' +
+    '<div class="paywall">' +
+      '<div class="pw-icon">🔒</div>' +
+      '<h1>' + menu.ikon + ' ' + menu.nama + ' khusus anggota Premium</h1>' +
+      '<p>' + menu.deskripsi + '. Berlangganan untuk membuka semua materi, aplikasi, latihan soal, dan soal ujian.</p>' +
+      '<div class="pw-price"><b>' + rupiah(HARGA_BULANAN) + '</b><span>/ bulan</span></div>' +
+      '<ul class="pw-list"><li>📚 Materi Matematika, Fisika, Kimia, Biologi</li><li>💻 Aplikasi &amp; simulasi pilihan</li>' +
+      '<li>✏️ Latihan soal + pembahasan</li><li>🧾 Soal ujian dari pembina</li></ul>' +
+      '<a href="#langganan" class="btn btn-gold">Langganan sekarang →</a>' +
+    '</div>';
 }
 
-// ---------- 8c. KELOLA ANGGOTA (ADMIN) ----------
-async function halamanAnggota() {
-  app.innerHTML =
-    '<nav class="crumbs"><a href="#">🏠 Dashboard</a><span class="sep">›</span><span class="now">Anggota</span></nav>' +
-    '<div class="page-head"><div><h1>👥 Anggota</h1><p>Setujui santri yang mendaftar agar bisa membuka materi.</p></div></div>' +
-    '<div id="daftarAnggota" class="file-list"><p class="loading">Memuat…</p></div>';
+// ---------- 8c. HALAMAN LANGGANAN (bayar + riwayat) ----------
+async function halamanLangganan() {
+  if (isAdmin) { location.hash = "pembayaran"; return; }
+  const aktif = statusSaya === "pelanggan";
 
-  const { data, error } = await db.from("anggota").select("*").order("disetujui").order("created_at", { ascending: false });
-  const box = document.getElementById("daftarAnggota");
+  let html =
+    '<nav class="crumbs"><a href="#">🏠 Dashboard</a><span class="sep">›</span><span class="now">Langganan</span></nav>' +
+    '<div class="page-head"><div><h1>⭐ Langganan Premium</h1><p>Akses penuh menu Belajar dan Ujian.</p></div></div>' +
+    '<div class="sub-status ' + (aktif ? "ok" : "") + '">' +
+      (aktif
+        ? '<span class="ic">✅</span><div><b>Premium aktif</b><span>Berlaku sampai <b>' + tanggal(aktifSampai) + '</b>. Pembayaran baru akan menambah masa aktif.</span></div>'
+        : '<span class="ic">🔒</span><div><b>Belum berlangganan</b><span>Ikuti 3 langkah di bawah. Langganan aktif setelah admin memeriksa bukti transfer.</span></div>') +
+    '</div>' +
+
+    '<div class="sub-grid">' +
+      '<div class="card-box"><h3><span class="step-no">1</span> Pilih lama langganan</h3>' +
+        '<div class="plans" id="plans">' +
+          PILIHAN_BULAN.map(function (b, i) {
+            return '<button type="button" class="plan' + (i === 0 ? " active" : "") + '" data-bulan="' + b + '">' +
+              '<b>' + b + ' bulan</b><span>' + rupiah(b * HARGA_BULANAN) + '</span></button>';
+          }).join("") +
+        '</div>' +
+        '<h3 style="margin-top:1.4rem"><span class="step-no">2</span> Transfer ke salah satu tujuan</h3>' +
+        '<div class="pay-list">' +
+          TUJUAN_BAYAR.map(function (t, i) {
+            return '<div class="pay"><div><small>' + esc(t.nama) + '</small><b>' + esc(t.nomor) + '</b><span>a.n. ' + esc(t.atasNama) + '</span></div>' +
+              '<button type="button" class="btn btn-light btn-sm" data-salin="' + i + '">Salin</button></div>';
+          }).join("") +
+        '</div>' +
+        '<p class="total">Total transfer: <b id="totalBayar">' + rupiah(PILIHAN_BULAN[0] * HARGA_BULANAN) + '</b></p>' +
+      '</div>' +
+
+      '<div class="card-box"><h3><span class="step-no">3</span> Kirim bukti transfer</h3>' +
+        '<form id="bayarForm" class="form" novalidate>' +
+          '<div class="field"><label for="bukti">Foto / screenshot bukti transfer</label><input type="file" id="bukti" accept="image/*,application/pdf"></div>' +
+          '<div class="field"><label for="catatan">Catatan (opsional)</label><input id="catatan" placeholder="Contoh: transfer dari rekening a.n. ayah"></div>' +
+          '<button type="submit" class="btn btn-green btn-block" id="bayarBtn">Kirim bukti pembayaran</button>' +
+          '<p class="form-info" id="bayarInfo"></p>' +
+        '</form>' +
+        (WA_ADMIN ? '<a class="wa-link" target="_blank" rel="noopener" href="https://wa.me/' + WA_ADMIN + '?text=' +
+          encodeURIComponent("Assalamu'alaikum, saya " + namaPengguna() + " (" + pengguna.email + ") sudah mengirim bukti langganan TSTC.") +
+          '">💬 Konfirmasi lewat WhatsApp admin</a>' : "") +
+      '</div>' +
+    '</div>' +
+    '<p class="section-label">Riwayat pembayaran</p><div id="riwayat" class="file-list"><p class="loading">Memuat…</p></div>';
+  app.innerHTML = html;
+
+  // pilih lama langganan
+  let bulan = PILIHAN_BULAN[0];
+  app.querySelectorAll(".plan").forEach(function (b) {
+    b.onclick = function () {
+      bulan = Number(b.dataset.bulan);
+      app.querySelectorAll(".plan").forEach(function (x) { x.classList.toggle("active", x === b); });
+      document.getElementById("totalBayar").textContent = rupiah(bulan * HARGA_BULANAN);
+    };
+  });
+  // salin nomor
+  app.querySelectorAll("[data-salin]").forEach(function (b) {
+    b.onclick = function () {
+      const nomor = TUJUAN_BAYAR[b.dataset.salin].nomor;
+      if (navigator.clipboard) navigator.clipboard.writeText(nomor);
+      b.textContent = "Tersalin ✓";
+      setTimeout(function () { b.textContent = "Salin"; }, 1500);
+    };
+  });
+
+  // kirim bukti
+  const form = document.getElementById("bayarForm");
+  const info = document.getElementById("bayarInfo");
+  const btn = document.getElementById("bayarBtn");
+  form.onsubmit = async function (e) {
+    e.preventDefault();
+    const file = document.getElementById("bukti").files[0];
+    const catatan = document.getElementById("catatan").value.trim();
+    const tampil = function (t, j) { info.textContent = t; info.className = "form-info " + j; };
+    if (!file) return tampil("Pilih foto bukti transfer terlebih dahulu.", "error");
+    if (file.size > 10 * 1024 * 1024) return tampil("Ukuran file maksimal 10 MB.", "error");
+
+    btn.disabled = true; btn.textContent = "Mengirim…";
+    const path = pengguna.id + "/" + Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const up = await db.storage.from("bukti").upload(path, file, { contentType: file.type || undefined });
+    if (up.error) { btn.disabled = false; btn.textContent = "Kirim bukti pembayaran"; return tampil("Gagal mengunggah: " + up.error.message, "error"); }
+    const { error } = await db.from("pembayaran").insert({ bulan: bulan, jumlah: bulan * HARGA_BULANAN, bukti_path: path, catatan: catatan });
+    btn.disabled = false; btn.textContent = "Kirim bukti pembayaran";
+    if (error) return tampil("Gagal menyimpan: " + error.message, "error");
+    form.reset();
+    tampil("Bukti terkirim ✓ Admin akan memeriksa dan mengaktifkan langganan Anda.", "success");
+    muatRiwayat();
+  };
+
+  muatRiwayat();
+}
+
+async function muatRiwayat() {
+  const box = document.getElementById("riwayat");
   if (!box) return;
-  if (error) {
-    box.innerHTML = '<div class="empty">Gagal memuat: ' + esc(error.message) + '<br>Pastikan file <b>supabase-daftar.sql</b> sudah dijalankan.</div>';
-    return;
-  }
-  if (!data.length) { box.innerHTML = '<div class="empty"><span class="ic">👥</span>Belum ada anggota.</div>'; return; }
+  const { data, error } = await db.from("pembayaran").select("*").eq("user_id", pengguna.id).order("created_at", { ascending: false });
+  if (error) { box.innerHTML = '<div class="empty">Gagal memuat: ' + esc(error.message) + '</div>'; return; }
+  if (!data.length) { box.innerHTML = '<div class="empty"><span class="ic">🧾</span>Belum ada pembayaran.</div>'; return; }
+  box.innerHTML = data.map(function (p, i) {
+    return '<div class="file" style="animation-delay:' + i * 0.04 + 's"><span class="ic">🧾</span>' +
+      '<div class="txt"><b>' + p.bulan + ' bulan · ' + rupiah(p.jumlah) + '</b><small>Dikirim ' + tanggal(p.created_at) + '</small></div>' +
+      pillStatus(p.status) + '</div>';
+  }).join("");
+}
 
-  box.innerHTML = data.map(function (a, i) {
-    const tgl = new Date(a.created_at).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+function pillStatus(st) {
+  const label = { menunggu: "⏳ Diperiksa", diterima: "✅ Diterima", ditolak: "❌ Ditolak" }[st] || st;
+  return '<span class="pill ' + (st === "diterima" ? "ok" : st === "ditolak" ? "no" : "wait") + '">' + label + '</span>';
+}
+
+// ---------- 8d. ADMIN: PEMBAYARAN MASUK ----------
+async function halamanPembayaran() {
+  app.innerHTML =
+    '<nav class="crumbs"><a href="#">🏠 Dashboard</a><span class="sep">›</span><span class="now">Pembayaran</span></nav>' +
+    '<div class="page-head"><div><h1>💳 Pembayaran</h1><p>Periksa bukti transfer, lalu terima untuk mengaktifkan langganan.</p></div></div>' +
+    '<div id="listBayar" class="file-list"><p class="loading">Memuat…</p></div>';
+
+  const [bayar, anggota] = await Promise.all([
+    db.from("pembayaran").select("*").order("status", { ascending: false }).order("created_at", { ascending: false }),
+    db.from("anggota").select("id, nama, email"),
+  ]);
+  const box = document.getElementById("listBayar");
+  if (!box) return;
+  if (bayar.error) { box.innerHTML = '<div class="empty">Gagal memuat: ' + esc(bayar.error.message) + '<br>Pastikan <b>supabase-langganan.sql</b> sudah dijalankan.</div>'; return; }
+  if (!bayar.data.length) { box.innerHTML = '<div class="empty"><span class="ic">💳</span>Belum ada pembayaran masuk.</div>'; return; }
+
+  const orang = {};
+  (anggota.data || []).forEach(function (a) { orang[a.id] = a; });
+  // yang menunggu tampil paling atas
+  const list = bayar.data.sort(function (a, b) { return (a.status === "menunggu" ? 0 : 1) - (b.status === "menunggu" ? 0 : 1); });
+
+  box.innerHTML = list.map(function (p, i) {
+    const a = orang[p.user_id] || { nama: "", email: "(tidak diketahui)" };
     return '<div class="file" style="animation-delay:' + i * 0.04 + 's">' +
       '<span class="avatar">' + esc((a.nama || a.email).charAt(0).toUpperCase()) + '</span>' +
-      '<div class="txt"><b>' + esc(a.nama || "(tanpa nama)") + '</b><span>' + esc(a.email) + '</span>' +
-      '<small>Daftar ' + tgl + ' · ' + (a.disetujui ? '<span class="pill ok">Disetujui</span>' : '<span class="pill wait">Menunggu</span>') + '</small></div>' +
-      '<div class="acts">' +
-        (a.disetujui
-          ? '<button class="btn btn-light btn-sm" data-set="' + i + '" data-val="0">Cabut</button>'
-          : '<button class="btn btn-green btn-sm" data-set="' + i + '" data-val="1">Setujui ✓</button>') +
-        '<button class="btn-icon" data-del="' + i + '" aria-label="Hapus">🗑️</button>' +
+      '<div class="txt"><b>' + esc(a.nama || a.email) + ' · ' + p.bulan + ' bln · ' + rupiah(p.jumlah) + '</b>' +
+      '<span>' + esc(a.email) + (p.catatan ? ' — “' + esc(p.catatan) + '”' : "") + '</span>' +
+      '<small>' + tanggal(p.created_at) + ' · ' + pillStatus(p.status) + '</small></div>' +
+      '<div class="acts wrap">' +
+        '<button class="btn btn-light btn-sm" data-lihat="' + i + '">Bukti ↗</button>' +
+        (p.status === "menunggu"
+          ? '<button class="btn btn-green btn-sm" data-terima="' + i + '">Terima ✓</button>' +
+            '<button class="btn-icon" data-tolak="' + i + '" aria-label="Tolak">✕</button>'
+          : "") +
       '</div></div>';
   }).join("");
 
-  box.querySelectorAll("[data-set]").forEach(function (b) {
+  box.querySelectorAll("[data-lihat]").forEach(function (b) {
     b.onclick = async function () {
-      const a = data[b.dataset.set];
+      const tab = window.open("", "_blank");
+      const { data, error } = await db.storage.from("bukti").createSignedUrl(list[b.dataset.lihat].bukti_path, 600);
+      if (error) { if (tab) tab.close(); alert("Gagal membuka bukti: " + error.message); return; }
+      if (tab) tab.location.href = data.signedUrl; else location.href = data.signedUrl;
+    };
+  });
+  box.querySelectorAll("[data-terima]").forEach(function (b) {
+    b.onclick = async function () {
+      const p = list[b.dataset.terima];
+      if (!confirm("Terima pembayaran " + rupiah(p.jumlah) + " dan aktifkan langganan " + p.bulan + " bulan?")) return;
       b.disabled = true;
-      const { error } = await db.from("anggota").update({ disetujui: b.dataset.val === "1" }).eq("id", a.id);
+      const { error } = await db.rpc("terima_pembayaran", { p_id: p.id });
+      if (error) alert("Gagal: " + error.message);
+      halamanPembayaran();
+    };
+  });
+  box.querySelectorAll("[data-tolak]").forEach(function (b) {
+    b.onclick = async function () {
+      const p = list[b.dataset.tolak];
+      if (!confirm("Tolak pembayaran ini?")) return;
+      const { error } = await db.from("pembayaran").update({ status: "ditolak", diproses_at: new Date().toISOString() }).eq("id", p.id);
+      if (error) alert("Gagal: " + error.message);
+      halamanPembayaran();
+    };
+  });
+}
+
+// ---------- 8e. ADMIN: DAFTAR ANGGOTA ----------
+async function halamanAnggota() {
+  app.innerHTML =
+    '<nav class="crumbs"><a href="#">🏠 Dashboard</a><span class="sep">›</span><span class="now">Anggota</span></nav>' +
+    '<div class="page-head"><div><h1>👥 Anggota</h1><p>Semua yang sudah mendaftar beserta status langganannya.</p></div></div>' +
+    '<div class="stat-row" id="ringkas"></div>' +
+    '<div id="daftarAnggota" class="file-list"><p class="loading">Memuat…</p></div>';
+
+  const { data, error } = await db.from("anggota").select("*").order("created_at", { ascending: false });
+  const box = document.getElementById("daftarAnggota");
+  if (!box) return;
+  if (error) { box.innerHTML = '<div class="empty">Gagal memuat: ' + esc(error.message) + '<br>Pastikan <b>supabase-langganan.sql</b> sudah dijalankan.</div>'; return; }
+
+  const sekarang = new Date();
+  const aktif = data.filter(function (a) { return a.aktif_sampai && new Date(a.aktif_sampai) > sekarang; }).length;
+  document.getElementById("ringkas").innerHTML =
+    '<div class="mini"><b>' + data.length + '</b><span>Anggota</span></div>' +
+    '<div class="mini"><b>' + aktif + '</b><span>Premium aktif</span></div>' +
+    '<div class="mini"><b>' + (data.length - aktif) + '</b><span>Gratis</span></div>';
+
+  if (!data.length) { box.innerHTML = '<div class="empty"><span class="ic">👥</span>Belum ada anggota.</div>'; return; }
+  box.innerHTML = data.map(function (a, i) {
+    const on = a.aktif_sampai && new Date(a.aktif_sampai) > sekarang;
+    return '<div class="file" style="animation-delay:' + i * 0.03 + 's">' +
+      '<span class="avatar">' + esc((a.nama || a.email).charAt(0).toUpperCase()) + '</span>' +
+      '<div class="txt"><b>' + esc(a.nama || "(tanpa nama)") + '</b><span>' + esc(a.email) + '</span>' +
+      '<small>' + (on ? '<span class="pill ok">⭐ Premium s.d. ' + tanggal(a.aktif_sampai) + '</span>' : '<span class="pill">Gratis</span>') + '</small></div>' +
+      '<div class="acts wrap">' +
+        '<button class="btn btn-light btn-sm" data-tambah="' + i + '">+1 bulan</button>' +
+        (on ? '<button class="btn-icon" data-stop="' + i + '" aria-label="Hentikan langganan">⏹</button>' : "") +
+      '</div></div>';
+  }).join("");
+
+  box.querySelectorAll("[data-tambah]").forEach(function (b) {
+    b.onclick = async function () {
+      const a = data[b.dataset.tambah];
+      if (!confirm("Tambah 1 bulan Premium untuk " + (a.nama || a.email) + "?")) return;
+      const { error } = await db.rpc("tambah_langganan", { p_user: a.id, p_bulan: 1 });
       if (error) alert("Gagal: " + error.message);
       halamanAnggota();
     };
   });
-  box.querySelectorAll("[data-del]").forEach(function (b) {
+  box.querySelectorAll("[data-stop]").forEach(function (b) {
     b.onclick = async function () {
-      const a = data[b.dataset.del];
-      if (!confirm("Hapus " + (a.nama || a.email) + " dari daftar anggota? (Akun login tetap ada, tapi tidak bisa membuka materi.)")) return;
-      const { error } = await db.from("anggota").delete().eq("id", a.id);
+      const a = data[b.dataset.stop];
+      if (!confirm("Hentikan langganan " + (a.nama || a.email) + " sekarang?")) return;
+      const { error } = await db.rpc("hentikan_langganan", { p_user: a.id });
       if (error) alert("Gagal: " + error.message);
       halamanAnggota();
     };
