@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-i18n>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,8 +10,11 @@
   <!-- Huruf modern dari Google Fonts (gratis) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tema gelap/terang diterapkan sebelum halaman tampil -->
+  <script src="js/tema.js"></script>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/editor.css">
 </head>
 <body>
 
@@ -37,6 +40,17 @@
       </nav>
 
       <div class="header-actions">
+        <!-- Pilihan bahasa -->
+        <div class="lang-wrap hide-phone">
+          <button class="icon-btn js-lang-btn" aria-label="Language">🌐 <span class="js-lang-label">EN</span></button>
+          <div class="lang-menu">
+            <button data-lang="id">🇮🇩 Indonesia</button>
+            <button data-lang="en">🇬🇧 English</button>
+            <button data-lang="ar">🇸🇦 العربية</button>
+          </div>
+        </div>
+        <!-- Tema gelap / terang -->
+        <button class="icon-btn js-theme-btn hide-phone" aria-label="Theme">🌙</button>
         <!-- Tulisan tombol berubah menjadi "Portal" jika sudah login -->
         <a href="daftar.html" class="btn btn-ghost btn-sm js-daftar-btn hide-phone">Daftar</a>
         <a href="login.html" class="btn btn-gold btn-sm js-login-btn">Login</a>
@@ -57,6 +71,12 @@
     <a href="portal.html#download">📥 Download <span class="lock">🔒</span></a>
     <a href="portal.html#ujian">📝 Ujian <span class="lock">🔒</span></a>
     <a href="#contact">Contact</a>
+    <div class="mobile-tools">
+      <button data-lang="id">ID</button>
+      <button data-lang="en">EN</button>
+      <button data-lang="ar">عربي</button>
+      <button class="js-theme-btn" aria-label="Theme">🌙</button>
+    </div>
     <a href="daftar.html" class="btn btn-ghost js-daftar-btn">Daftar gratis</a>
     <a href="login.html" class="btn btn-gold js-login-btn">Login</a>
   </div>
@@ -320,39 +340,39 @@
           <button class="filter" data-filter="learning">Learning</button>
         </div>
 
-        <!-- Menambah foto: unggah ke folder images, lalu salin satu baris <img> -->
+        <!-- Foto bisa ditambah/diganti lewat editor admin (✏️ pojok kanan bawah) -->
         <div class="gallery" id="gallery-grid">
-          <img src="images/foto-01.jpg" data-cat="awards" alt="TSTC team at I2ASPO & NASPO 2025, Universitas Gadjah Mada" loading="lazy">
-          <img src="images/foto-02.jpg" data-cat="projects" alt="TSTC project booth at an exhibition" loading="lazy">
-          <img src="images/foto-03.jpg" data-cat="projects" alt="Electronics and IoT prototype" loading="lazy">
-          <img src="images/foto-04.jpg" data-cat="projects" alt="Outdoor monitoring device prototype" loading="lazy">
-          <img src="images/foto-05.jpg" data-cat="learning" alt="Research training and coaching program 2025" loading="lazy">
-          <img src="images/foto-06.jpg" data-cat="awards" alt="Global Youth Innovation Summit certificate" loading="lazy">
-          <img src="images/foto-07.jpg" data-cat="awards" alt="Award ceremony on stage" loading="lazy">
-          <img src="images/foto-08.jpg" data-cat="awards" alt="Global Youth Innovation Summit certificate" loading="lazy">
-          <img src="images/foto-09.jpg" data-cat="awards" alt="Team with certificates and trophies" loading="lazy">
-          <img src="images/foto-10.jpg" data-cat="awards" alt="Global Youth Innovation Summit certificate" loading="lazy">
-          <img src="images/foto-11.jpg" data-cat="awards" alt="Bronze Award at ITMC 2025" loading="lazy">
-          <img src="images/foto-12.jpg" data-cat="awards" alt="Team with trophies and certificates" loading="lazy">
-          <img src="images/foto-13.jpg" data-cat="awards" alt="Participants with the Indonesian flag at an international event" loading="lazy">
-          <img src="images/foto-14.jpg" data-cat="learning" alt="Santri during a science test" loading="lazy">
-          <img src="images/foto-15.jpg" data-cat="awards" alt="Santri with certificates in front of the school" loading="lazy">
-          <img src="images/foto-16.jpg" data-cat="learning" alt="Group discussion session" loading="lazy">
-          <img src="images/foto-17.jpg" data-cat="learning" alt="Classroom session" loading="lazy">
-          <img src="images/foto-18.jpg" data-cat="learning" alt="Teacher explaining in the computer lab" loading="lazy">
-          <img src="images/foto-19.jpg" data-cat="learning" alt="Computer lab training" loading="lazy">
-          <img src="images/foto-20.jpg" data-cat="awards" alt="TSTC team at an invention exhibition" loading="lazy">
-          <img src="images/foto-21.jpg" data-cat="awards" alt="Awarding ceremony IIIEX 2026" loading="lazy">
-          <img src="images/foto-22.jpg" data-cat="awards" alt="TSTC team at an invention exhibition" loading="lazy">
-          <img src="images/foto-23.jpg" data-cat="projects" alt="Building a glider model with a mentor" loading="lazy">
-          <img src="images/foto-24.jpg" data-cat="projects" alt="Programming a remote-controlled aircraft" loading="lazy">
-          <img src="images/foto-25.jpg" data-cat="projects" alt="Santri with a glider model" loading="lazy">
-          <img src="images/foto-26.jpg" data-cat="projects" alt="Teamwork on a glider project" loading="lazy">
-          <img src="images/foto-27.jpg" data-cat="learning" alt="Computer lab session" loading="lazy">
-          <img src="images/foto-28.jpg" data-cat="projects" alt="Assembling robot kits" loading="lazy">
-          <img src="images/foto-29.jpg" data-cat="projects" alt="Students showing their robot kits" loading="lazy">
-          <img src="images/foto-30.jpg" data-cat="projects" alt="Young students with robot kits" loading="lazy">
-          <img src="images/foto-31.jpg" data-cat="projects" alt="Young students showing their robots" loading="lazy">
+          <figure data-cat="awards"><img src="images/foto-01.jpg" alt="TSTC team at I2ASPO & NASPO 2025, Universitas Gadjah Mada" loading="lazy"></figure>
+          <figure data-cat="projects"><img src="images/foto-02.jpg" alt="TSTC project booth at an exhibition" loading="lazy"></figure>
+          <figure data-cat="projects"><img src="images/foto-03.jpg" alt="Electronics and IoT prototype" loading="lazy"></figure>
+          <figure data-cat="projects"><img src="images/foto-04.jpg" alt="Outdoor monitoring device prototype" loading="lazy"></figure>
+          <figure data-cat="learning"><img src="images/foto-05.jpg" alt="Research training and coaching program 2025" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-06.jpg" alt="Global Youth Innovation Summit certificate" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-07.jpg" alt="Award ceremony on stage" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-08.jpg" alt="Global Youth Innovation Summit certificate" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-09.jpg" alt="Team with certificates and trophies" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-10.jpg" alt="Global Youth Innovation Summit certificate" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-11.jpg" alt="Bronze Award at ITMC 2025" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-12.jpg" alt="Team with trophies and certificates" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-13.jpg" alt="Participants with the Indonesian flag at an international event" loading="lazy"></figure>
+          <figure data-cat="learning"><img src="images/foto-14.jpg" alt="Santri during a science test" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-15.jpg" alt="Santri with certificates in front of the school" loading="lazy"></figure>
+          <figure data-cat="learning"><img src="images/foto-16.jpg" alt="Group discussion session" loading="lazy"></figure>
+          <figure data-cat="learning"><img src="images/foto-17.jpg" alt="Classroom session" loading="lazy"></figure>
+          <figure data-cat="learning"><img src="images/foto-18.jpg" alt="Teacher explaining in the computer lab" loading="lazy"></figure>
+          <figure data-cat="learning"><img src="images/foto-19.jpg" alt="Computer lab training" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-20.jpg" alt="TSTC team at an invention exhibition" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-21.jpg" alt="Awarding ceremony IIIEX 2026" loading="lazy"></figure>
+          <figure data-cat="awards"><img src="images/foto-22.jpg" alt="TSTC team at an invention exhibition" loading="lazy"></figure>
+          <figure data-cat="projects"><img src="images/foto-23.jpg" alt="Building a glider model with a mentor" loading="lazy"></figure>
+          <figure data-cat="projects"><img src="images/foto-24.jpg" alt="Programming a remote-controlled aircraft" loading="lazy"></figure>
+          <figure data-cat="projects"><img src="images/foto-25.jpg" alt="Santri with a glider model" loading="lazy"></figure>
+          <figure data-cat="projects"><img src="images/foto-26.jpg" alt="Teamwork on a glider project" loading="lazy"></figure>
+          <figure data-cat="learning"><img src="images/foto-27.jpg" alt="Computer lab session" loading="lazy"></figure>
+          <figure data-cat="projects"><img src="images/foto-28.jpg" alt="Assembling robot kits" loading="lazy"></figure>
+          <figure data-cat="projects"><img src="images/foto-29.jpg" alt="Students showing their robot kits" loading="lazy"></figure>
+          <figure data-cat="projects"><img src="images/foto-30.jpg" alt="Young students with robot kits" loading="lazy"></figure>
+          <figure data-cat="projects"><img src="images/foto-31.jpg" alt="Young students showing their robots" loading="lazy"></figure>
         </div>
       </div>
     </section>
@@ -425,6 +445,8 @@
   <!-- Supabase (login) + pengaturan + interaksi -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/editor.js"></script>
 </body>
 </html>
