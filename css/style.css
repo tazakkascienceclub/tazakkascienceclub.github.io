@@ -684,3 +684,15 @@ html[data-theme="dark"] .btn-light { color: #7fe0c0; }
 html[data-theme="dark"] .member-card .go, html[data-theme="dark"] .kicker { color: #5fd3ac; }
 html[data-theme="dark"] .footer { background: #030d0a; }
 html[data-theme="dark"] .section-dark { background-color: #03140f; }
+
+/* Tombol bahasa ID / EN / AR */
+.lang-seg {
+  display: inline-flex; padding: 3px; gap: 2px; border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.08);
+}
+.lang-seg button {
+  border: none; background: transparent; color: rgba(255, 255, 255, 0.8);
+  font-weight: 800; font-size: 0.78rem; padding: 0.45rem 0.55rem; border-radius: 9px; cursor: pointer;
+}
+.lang-seg button.active { background: var(--gold); color: var(--g-950); }
+@media (max-width: 1279px) { .hide-narrow { display: none; } }
