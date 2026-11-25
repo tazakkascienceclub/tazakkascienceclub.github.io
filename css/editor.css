@@ -1,0 +1,82 @@
+/* =========================================================
+   EDITOR ADMIN (hanya aktif untuk admin)
+   ========================================================= */
+
+/* Tombol pena kecil & samar di pojok kanan bawah */
+#ed-fab {
+  position: fixed; right: 1rem; bottom: 1rem; z-index: 70;
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--surface);
+  font-size: 1.05rem; cursor: pointer; box-shadow: var(--shadow-sm);
+  opacity: 0.35; transition: opacity 0.2s, transform 0.2s;
+}
+#ed-fab:hover { opacity: 1; transform: scale(1.08); }
+body.ada-editor .to-top { bottom: 4.2rem; }
+body.mode-edit #ed-fab { display: none; }
+
+/* Panel alat editor */
+#ed-panel {
+  position: fixed; right: 1rem; bottom: 1rem; z-index: 80;
+  width: min(340px, calc(100vw - 2rem));
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--line); border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  padding: 1rem; font-size: 0.88rem;
+  animation: naikEd 0.25s ease;
+}
+@keyframes naikEd { from { transform: translateY(20px); opacity: 0; } to { transform: none; opacity: 1; } }
+#ed-panel .ed-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+#ed-panel .ed-head span { font-size: 0.75rem; font-weight: 700; background: var(--g-100); color: var(--g-700); padding: 0.15rem 0.6rem; border-radius: 999px; }
+#ed-panel .ed-help { color: var(--muted); font-size: 0.8rem; margin-bottom: 0.7rem; }
+#ed-panel .ed-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+#ed-panel button {
+  border: 1px solid var(--line); background: var(--g-50); color: var(--text);
+  padding: 0.6rem; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 0.85rem;
+}
+#ed-panel .ed-save { background: var(--g-700); color: #fff; border-color: var(--g-700); }
+#ed-panel .ed-reset { grid-column: span 2; font-size: 0.78rem; color: var(--muted); }
+#ed-panel .ed-status { margin: 0.6rem 0 0; font-weight: 700; color: var(--g-700); min-height: 1em; }
+#ed-panel .ed-status.err { color: #c0261b; }
+body.mode-edit .to-top { display: none; }
+
+/* Teks yang bisa diketik */
+body.mode-edit [contenteditable="true"] {
+  outline: 1.5px dashed rgba(20, 163, 127, 0.55); outline-offset: 2px;
+  border-radius: 4px; cursor: text;
+}
+body.mode-edit [contenteditable="true"]:focus { outline: 2px solid var(--gold); background: rgba(242, 184, 27, 0.08); }
+
+/* Kotak yang bisa ditambah/hapus/pindah */
+body.mode-edit .ed-item { position: relative; }
+body.mode-edit .ed-item:hover { box-shadow: 0 0 0 2px var(--g-500); }
+.ed-tools {
+  position: absolute; top: -12px; right: -6px; z-index: 5;
+  display: flex; gap: 2px; padding: 2px;
+  background: var(--g-950); border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-size: 0; line-height: 0;
+}
+[dir="rtl"] .ed-tools { right: auto; left: -6px; }
+.ed-tools button {
+  width: 28px; height: 26px; border: none; border-radius: 8px;
+  background: transparent; color: #fff; font-size: 0.8rem; line-height: 1; cursor: pointer;
+}
+.ed-tools button:hover { background: rgba(255, 255, 255, 0.15); }
+.ed-add {
+  display: block; width: 100%; margin: 0.8rem 0 0;
+  border: 2px dashed var(--g-500); background: rgba(20, 163, 127, 0.06);
+  color: var(--g-500); font-weight: 800; padding: 0.7rem; border-radius: 14px; cursor: pointer;
+}
+.section-dark .ed-add, .hero .ed-add { color: #7fe0c0; border-color: #7fe0c0; }
+
+/* Foto yang bisa diganti */
+body.mode-edit .ed-img { cursor: copy; outline: 2px dashed var(--gold); outline-offset: -4px; }
+body.mode-edit .ed-img:hover { filter: brightness(0.8); }
+
+/* Label kategori foto galeri */
+body.mode-edit #gallery-grid figure::after {
+  content: attr(data-cat); position: absolute; left: 8px; bottom: 8px;
+  background: rgba(0, 0, 0, 0.65); color: #fff; font-size: 0.7rem; font-weight: 700;
+  padding: 0.15rem 0.5rem; border-radius: 999px;
+}
+/* Animasi hero tetap tampil saat edit */
+body.mode-edit .hero-content > * { opacity: 1; animation: none; }

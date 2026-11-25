@@ -7,6 +7,8 @@
 :root {
   --g-950: #03241d;
   --g-900: #052e25;
+  --g-deep: #052e25;   /* latar gelap (tidak berubah di tema gelap) */
+  --surface: #ffffff;  /* latar kartu */
   --g-800: #08453a;
   --g-700: #0b5d4b;
   --g-500: #14a37f;
@@ -33,7 +35,7 @@ html { scroll-behavior: smooth; }
 body {
   font-family: var(--font);
   color: var(--text);
-  background: var(--white);
+  background: var(--surface);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
@@ -52,7 +54,7 @@ p { margin-bottom: 0.9rem; }
   padding: 0.85rem 1.5rem;
   border-radius: 999px;
   border: 1.5px solid transparent;
-  font-weight: 700; font-size: 0.98rem;
+  font-weight: 700; font-size: 0.98rem; white-space: nowrap;
   text-decoration: none; cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
 }
@@ -89,7 +91,7 @@ p { margin-bottom: 0.9rem; }
 .header-inner .brand { flex: 1 1 auto; }
 .brand-logo {
   width: 44px; height: 44px; border-radius: 14px;
-  background: var(--white); padding: 4px; flex-shrink: 0;
+  background: var(--surface); padding: 4px; flex-shrink: 0;
   transition: transform 0.6s;
 }
 .brand:hover .brand-logo { transform: rotate(360deg); }
@@ -207,7 +209,7 @@ p { margin-bottom: 0.9rem; }
 }
 .scroll-hint::after {
   content: ""; position: absolute; left: 50%; top: 8px; width: 4px; height: 8px;
-  border-radius: 2px; background: var(--white); transform: translateX(-50%);
+  border-radius: 2px; background: var(--surface); transform: translateX(-50%);
   animation: gulir 1.6s ease-in-out infinite;
 }
 @keyframes gulir { 0% { opacity: 0; top: 6px; } 40% { opacity: 1; } 100% { opacity: 0; top: 22px; } }
@@ -248,7 +250,7 @@ p { margin-bottom: 0.9rem; }
 }
 .about-badge {
   position: absolute; left: -0.5rem; top: 1.2rem;
-  background: var(--white); border-radius: 16px; padding: 0.8rem 1rem;
+  background: var(--surface); border-radius: 16px; padding: 0.8rem 1rem;
   box-shadow: var(--shadow); display: flex; align-items: center; gap: 0.6rem;
   font-size: 0.85rem; font-weight: 700; color: var(--g-900);
 }
@@ -270,7 +272,7 @@ p { margin-bottom: 0.9rem; }
 /* ===== 8. VISION & MISSION ===== */
 .vision-card {
   position: relative; overflow: hidden;
-  background: linear-gradient(135deg, var(--g-700), var(--g-900));
+  background: linear-gradient(135deg, var(--g-700), var(--g-deep));
   color: var(--white); border-radius: 28px;
   padding: clamp(2rem, 5vw, 3.5rem);
   box-shadow: var(--shadow-lg);
@@ -285,7 +287,7 @@ p { margin-bottom: 0.9rem; }
 .mission-grid { display: grid; gap: 1rem; }
 .mission {
   display: flex; gap: 1rem; align-items: flex-start;
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--surface); border: 1px solid var(--line);
   border-radius: var(--radius); padding: 1.2rem;
   box-shadow: var(--shadow-sm); transition: transform 0.25s, box-shadow 0.25s;
 }
@@ -300,7 +302,7 @@ p { margin-bottom: 0.9rem; }
 .values { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .value {
   display: inline-flex; align-items: center; gap: 0.5rem;
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--surface); border: 1px solid var(--line);
   border-radius: 999px; padding: 0.6rem 1.1rem;
   font-weight: 600; font-size: 0.92rem; box-shadow: var(--shadow-sm);
   transition: transform 0.2s, background 0.2s;
@@ -311,7 +313,7 @@ p { margin-bottom: 0.9rem; }
 .bento { display: grid; gap: 1rem; }
 .feature {
   position: relative; overflow: hidden;
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--surface); border: 1px solid var(--line);
   border-radius: var(--radius); padding: 1.6rem;
   box-shadow: var(--shadow-sm); transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -324,7 +326,7 @@ p { margin-bottom: 0.9rem; }
 .feature h3 { font-size: 1.1rem; color: var(--g-900); margin-bottom: 0.4rem; }
 .feature p { color: var(--muted); font-size: 0.93rem; margin: 0; }
 .feature.big {
-  background: linear-gradient(135deg, var(--g-700), var(--g-900)); color: var(--white); border: none;
+  background: linear-gradient(135deg, var(--g-700), var(--g-deep)); color: var(--white); border: none;
 }
 .feature.big h3 { color: var(--white); font-size: 1.4rem; }
 .feature.big p { color: rgba(255, 255, 255, 0.8); }
@@ -332,7 +334,7 @@ p { margin-bottom: 0.9rem; }
 
 .cycle { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; counter-reset: c; }
 .step {
-  position: relative; background: var(--white); border: 1px solid var(--line);
+  position: relative; background: var(--surface); border: 1px solid var(--line);
   border-radius: 16px; padding: 1.1rem; box-shadow: var(--shadow-sm);
 }
 .step .no {
@@ -345,7 +347,7 @@ p { margin-bottom: 0.9rem; }
 
 .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .tags li {
-  background: var(--g-900); color: var(--white);
+  background: var(--g-deep); color: var(--white);
   padding: 0.55rem 1.1rem; border-radius: 999px; font-size: 0.88rem; font-weight: 600;
 }
 
@@ -396,7 +398,7 @@ p { margin-bottom: 0.9rem; }
 .member-card {
   position: relative; overflow: hidden;
   display: block; text-decoration: none; color: var(--text);
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--surface); border: 1px solid var(--line);
   border-radius: var(--radius); padding: 1.8rem 1.6rem;
   box-shadow: var(--shadow-sm); transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -418,7 +420,7 @@ p { margin-bottom: 0.9rem; }
 /* Kartu harga */
 .pricing { display: grid; gap: 1rem; max-width: 760px; margin: 2.2rem auto 0; }
 .price-card {
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--surface); border: 1px solid var(--line);
   border-radius: 24px; padding: 1.8rem 1.6rem; box-shadow: var(--shadow-sm);
   display: flex; flex-direction: column;
 }
@@ -443,13 +445,13 @@ p { margin-bottom: 0.9rem; }
   background: linear-gradient(var(--g-500), var(--gold)); border-radius: 2px;
 }
 .milestone {
-  position: relative; background: var(--white); border: 1px solid var(--line);
+  position: relative; background: var(--surface); border: 1px solid var(--line);
   border-radius: 16px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow-sm);
 }
 .milestone::before {
   content: ""; position: absolute; left: -1.6rem; top: 1.3rem;
   width: 15px; height: 15px; border-radius: 50%;
-  background: var(--white); border: 4px solid var(--g-500);
+  background: var(--surface); border: 4px solid var(--g-500);
 }
 .milestone .yr { font-size: 0.78rem; font-weight: 800; color: var(--g-500); letter-spacing: 0.06em; }
 .milestone h3 { color: var(--g-900); font-size: 1.08rem; margin: 0.15rem 0 0.3rem; }
@@ -458,20 +460,20 @@ p { margin-bottom: 0.9rem; }
 /* ===== 13. GALLERY ===== */
 .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.6rem; }
 .filter {
-  border: 1.5px solid var(--line); background: var(--white); color: var(--g-900);
+  border: 1.5px solid var(--line); background: var(--surface); color: var(--g-900);
   padding: 0.55rem 1.2rem; border-radius: 999px; font-weight: 700; font-size: 0.9rem;
   cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
-.filter.active, .filter:hover { background: var(--g-900); color: var(--white); border-color: var(--g-900); }
+.filter.active, .filter:hover { background: var(--g-deep); color: var(--white); border-color: var(--g-deep); }
 
 .gallery { columns: 2; column-gap: 0.8rem; }
-.gallery img {
-  width: 100%; margin-bottom: 0.8rem; break-inside: avoid;
-  border-radius: 14px; cursor: zoom-in;
+.gallery figure { position: relative; margin: 0 0 0.8rem; break-inside: avoid; }
+.gallery figure img {
+  width: 100%; border-radius: 14px; cursor: zoom-in;
   transition: transform 0.3s, filter 0.3s;
 }
-.gallery img:hover { transform: scale(1.02); filter: brightness(1.05); }
-.gallery img.hide { display: none; }
+.gallery figure img:hover { transform: scale(1.02); filter: brightness(1.05); }
+.gallery figure.hide { display: none; }
 
 .lightbox {
   position: fixed; inset: 0; z-index: 100;
@@ -495,7 +497,7 @@ p { margin-bottom: 0.9rem; }
 /* ===== 14. CONTACT ===== */
 .contact-card {
   display: grid; gap: 2rem;
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--surface); border: 1px solid var(--line);
   border-radius: 28px; padding: clamp(1.5rem, 4vw, 2.8rem); box-shadow: var(--shadow);
 }
 .contact-info .item { display: flex; gap: 0.9rem; align-items: flex-start; margin-bottom: 1.1rem; }
@@ -517,7 +519,7 @@ p { margin-bottom: 0.9rem; }
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 .field input:focus, .field textarea:focus, .field select:focus {
-  outline: none; border-color: var(--g-500); background: var(--white);
+  outline: none; border-color: var(--g-500); background: var(--surface);
   box-shadow: 0 0 0 4px rgba(20, 163, 127, 0.15);
 }
 .form-info { font-weight: 600; font-size: 0.92rem; margin: 0.6rem 0 0; min-height: 1.2em; }
@@ -594,3 +596,91 @@ p { margin-bottom: 0.9rem; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal, .hero-content > * { opacity: 1; transform: none; }
 }
+
+
+/* =========================================================
+   20. TOMBOL TEMA & BAHASA
+   ========================================================= */
+.icon-btn {
+  height: 40px; min-width: 40px; padding: 0 0.6rem; border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.08);
+  color: var(--white); font-weight: 700; font-size: 0.85rem; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.3rem;
+}
+.icon-btn:hover { background: rgba(255, 255, 255, 0.16); }
+.lang-wrap { position: relative; }
+.lang-menu {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 60;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: var(--shadow-lg); padding: 0.35rem; min-width: 170px;
+  display: none; flex-direction: column;
+}
+[dir="rtl"] .lang-menu { right: auto; left: 0; }
+.lang-wrap.open .lang-menu { display: flex; animation: pudar 0.15s ease; }
+.lang-menu button {
+  border: none; background: none; text-align: start; padding: 0.6rem 0.8rem;
+  border-radius: 10px; font-weight: 600; color: var(--text); cursor: pointer;
+}
+.lang-menu button:hover, .lang-menu button.active { background: var(--g-100); color: var(--g-700); }
+.mobile-tools { display: flex; gap: 0.4rem; padding: 0.8rem 0 0.2rem; }
+.mobile-tools button {
+  flex: 1; padding: 0.6rem; border-radius: 12px; font-weight: 700; cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.06); color: var(--white);
+}
+.mobile-tools button.active { background: var(--gold); color: var(--g-950); border-color: var(--gold); }
+
+/* Sembunyikan halaman sebentar saat diterjemahkan (mencegah kedip) */
+html.i18n-loading body { opacity: 0; }
+body { transition: opacity 0.25s; }
+
+/* =========================================================
+   21. BAHASA ARAB (kanan ke kiri)
+   ========================================================= */
+html[lang="ar"] body { font-family: "Cairo", var(--font); }
+html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3 { letter-spacing: 0; line-height: 1.4; }
+[dir="rtl"] .quote { border-left: none; border-right: 4px solid var(--gold); border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+[dir="rtl"] .hero::before {
+  background:
+    radial-gradient(ellipse at 85% 20%, rgba(20, 163, 127, 0.35), transparent 55%),
+    linear-gradient(260deg, rgba(3, 36, 29, 0.96) 0%, rgba(3, 36, 29, 0.80) 45%, rgba(3, 36, 29, 0.45) 100%);
+}
+[dir="rtl"] .about-photos { padding: 0 0 2rem 2rem; }
+[dir="rtl"] .about-photos .p2 { right: auto; left: 0; }
+[dir="rtl"] .about-badge { left: auto; right: -0.5rem; }
+[dir="rtl"] .timeline { padding-left: 0; padding-right: 1.6rem; }
+[dir="rtl"] .timeline::before { left: auto; right: 6px; }
+[dir="rtl"] .milestone::before { left: auto; right: -1.6rem; }
+[dir="rtl"] .honor:hover { transform: translateX(-6px); }
+[dir="rtl"] .member-card .badge-lock { right: auto; left: 1.2rem; }
+[dir="rtl"] .to-top { right: auto; left: 1rem; }
+@media (min-width: 720px) { [dir="rtl"] .timeline { padding-right: 0; } }
+
+/* =========================================================
+   22. TEMA GELAP
+   ========================================================= */
+html[data-theme="dark"] {
+  --text: #e3ece9;
+  --muted: #9db2ab;
+  --line: #1f3832;
+  --g-50: #0b1b17;
+  --g-100: #12312a;
+  --g-900: #eaf5f1;          /* warna judul menjadi terang */
+  --gold-soft: #3a2f0d;
+  --surface: #0f221d;        /* latar kartu */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+}
+html[data-theme="dark"] body { background: #07130f; }
+html[data-theme="dark"] .about-text p,
+html[data-theme="dark"] .mission p { color: #c3d3ce; }
+html[data-theme="dark"] .partner { background: var(--surface); color: var(--text); }
+html[data-theme="dark"] .about-photos .p2 { border-color: var(--surface); }
+html[data-theme="dark"] .quote { color: #f5dc8f; }
+html[data-theme="dark"] .mission .num { color: var(--gold); }
+html[data-theme="dark"] .member-card .badge-lock { color: var(--gold); }
+html[data-theme="dark"] .member-card li { color: #7fe0c0; }
+html[data-theme="dark"] .btn-light { color: #7fe0c0; }
+html[data-theme="dark"] .member-card .go, html[data-theme="dark"] .kicker { color: #5fd3ac; }
+html[data-theme="dark"] .footer { background: #030d0a; }
+html[data-theme="dark"] .section-dark { background-color: #03140f; }
