@@ -12,9 +12,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   <!-- Tema gelap/terang diterapkan sebelum halaman tampil -->
-  <script src="js/tema.js"></script>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/editor.css">
+  <script src="js/tema.js?v=20261125"></script>
+  <link rel="stylesheet" href="css/style.css?v=20261125">
+  <link rel="stylesheet" href="css/editor.css?v=20261125">
 </head>
 <body>
 
@@ -41,18 +41,15 @@
 
       <div class="header-actions">
         <!-- Pilihan bahasa -->
-        <div class="lang-wrap hide-phone">
-          <button class="icon-btn js-lang-btn" aria-label="Language">🌐 <span class="js-lang-label">EN</span></button>
-          <div class="lang-menu">
-            <button data-lang="id">🇮🇩 Indonesia</button>
-            <button data-lang="en">🇬🇧 English</button>
-            <button data-lang="ar">🇸🇦 العربية</button>
-          </div>
+        <div class="lang-seg hide-phone" role="group" aria-label="Language">
+          <button data-lang="id">ID</button>
+          <button data-lang="en">EN</button>
+          <button data-lang="ar">AR</button>
         </div>
         <!-- Tema gelap / terang -->
         <button class="icon-btn js-theme-btn hide-phone" aria-label="Theme">🌙</button>
         <!-- Tulisan tombol berubah menjadi "Portal" jika sudah login -->
-        <a href="daftar.html" class="btn btn-ghost btn-sm js-daftar-btn hide-phone">Daftar</a>
+        <a href="daftar.html" class="btn btn-ghost btn-sm js-daftar-btn hide-narrow">Daftar</a>
         <a href="login.html" class="btn btn-gold btn-sm js-login-btn">Login</a>
         <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
       </div>
@@ -444,9 +441,9 @@
 
   <!-- Supabase (login) + pengaturan + interaksi -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/editor.js"></script>
+  <script src="js/config.js?v=20261125"></script>
+  <script src="js/i18n.js?v=20261125"></script>
+  <script src="js/main.js?v=20261125"></script>
+  <script src="js/editor.js?v=20261125"></script>
 </body>
 </html>
