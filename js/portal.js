@@ -257,7 +257,9 @@ function kotakLangganan() {
 async function dashboard() {
   let html =
     '<div class="welcome"><h1>Assalamu\'alaikum, ' + esc(namaPengguna()) + ' 👋</h1>' +
-    '<p>' + (isAdmin ? "Anda masuk sebagai <b>Admin</b>: bisa menambah dan menghapus file di setiap folder." : "Selamat datang di Portal Anggota TSTC. Pilih menu untuk mulai belajar.") + '</p></div>' +
+    '<p>' + (isAdmin ? "Anda masuk sebagai <b>Admin</b>: bisa menambah dan menghapus file di setiap folder." : "Selamat datang di Portal Anggota TSTC. Pilih menu untuk mulai belajar.") + '</p>' +
+    (isAdmin ? '<a class="btn btn-gold btn-sm" href="index.html?edit=1" style="margin-top:1rem;position:relative">✏️ Edit halaman depan</a>' : "") +
+    '</div>' +
     kotakLangganan() +
     '<div class="folder-grid">';
   Object.keys(MENU).forEach(function (k, i) {

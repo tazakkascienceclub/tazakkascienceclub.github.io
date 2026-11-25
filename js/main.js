@@ -9,19 +9,16 @@ const BAGIAN_EDIT = ["home", "about", "vision", "programs", "achievements", "mem
 const BAHASA_AKTIF = window.BAHASA || "en";
 const header = document.getElementById("header");
 
-// ===== 1. PILIHAN BAHASA =====
-document.querySelectorAll(".js-lang-label").forEach(function (el) { el.textContent = BAHASA_AKTIF.toUpperCase(); });
-const langBtn = document.querySelector(".js-lang-btn");
-const langWrap = document.querySelector(".lang-wrap");
-if (langBtn) {
-  langBtn.addEventListener("click", function (e) { e.stopPropagation(); langWrap.classList.toggle("open"); });
-  document.addEventListener("click", function () { langWrap.classList.remove("open"); });
-}
+// ===== 1. PILIHAN BAHASA (ID / EN / AR) =====
 document.querySelectorAll("[data-lang]").forEach(function (b) {
   b.classList.toggle("active", b.dataset.lang === BAHASA_AKTIF);
   b.addEventListener("click", function () {
     try { localStorage.setItem("bahasa", b.dataset.lang); } catch (e) {}
-    location.reload();
+    // ?lang= juga dipakai, agar tetap berfungsi walau penyimpanan browser diblokir
+    const url = new URL(location.href);
+    url.searchParams.set("lang", b.dataset.lang);
+    url.searchParams.delete("edit");
+    location.href = url.pathname + url.search + location.hash;
   });
 });
 
@@ -229,16 +226,30 @@ async function cekLogin() {
 }
 
 // ===== JALANKAN SEMUA =====
+// Setiap bagian dijalankan terpisah: jika satu gagal, yang lain tetap berjalan
+function coba(nama, fungsi) {
+  try { return fungsi(); } catch (e) { console.error("[TSTC] " + nama + ":", e); }
+}
+
 (async function mulai() {
-  await muatIsi();
-  jalankanSlideshow();
-  jalankanReveal();
-  jalankanCounter();
-  jalankanGaleri();
-  jalankanKontak();
-  const sesi = await cekLogin();
+  try { await muatIsi(); } catch (e) { console.error("[TSTC] muatIsi:", e); }
+  document.documentElement.classList.remove("i18n-loading");
+  coba("slideshow", jalankanSlideshow);
+  coba("reveal", jalankanReveal);
+  coba("counter", jalankanCounter);
+  coba("galeri", jalankanGaleri);
+  coba("kontak", jalankanKontak);
+
+  let sesi = null;
+  try { sesi = await cekLogin(); } catch (e) { console.error("[TSTC] login:", e); }
+
   // Editor admin (js/editor.js) dijalankan setelah semua script termuat
-  const jalankanEditor = function () { if (sesi && typeof siapkanEditor === "function") siapkanEditor(sesi); };
+  const jalankanEditor = function () {
+    if (sesi && typeof siapkanEditor === "function") siapkanEditor(sesi);
+    else if (new URLSearchParams(location.search).get("edit") === "1") {
+      alert(sesi ? "Editor gagal dimuat. Muat ulang halaman ini." : "Silakan login sebagai admin terlebih dahulu.");
+    }
+  };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", jalankanEditor);
   else jalankanEditor();
 })();

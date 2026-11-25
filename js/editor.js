@@ -18,7 +18,12 @@ let adaPerubahan = false;
 
 async function siapkanEditor() {
   const cek = await db.rpc("is_admin");
-  if (cek.data !== true) return; // bukan admin: tidak ada apa-apa
+  if (cek.data !== true) {
+    if (new URLSearchParams(location.search).get("edit") === "1") {
+      alert("Akun ini belum terdaftar sebagai admin. Periksa tabel admins di Supabase.");
+    }
+    return; // bukan admin: tidak ada apa-apa
+  }
 
   document.body.classList.add("ada-editor");
   const fab = document.createElement("button");
@@ -27,6 +32,9 @@ async function siapkanEditor() {
   fab.textContent = "✏️";
   fab.onclick = function () { if (!editorAktif) mulaiEdit(); };
   document.body.appendChild(fab);
+
+  // Dibuka dari portal (index.html?edit=1): langsung masuk mode edit
+  if (new URLSearchParams(location.search).get("edit") === "1") mulaiEdit();
 }
 
 // ---------- MASUK MODE EDIT ----------
@@ -187,7 +195,7 @@ function gantiFoto(img) {
   input.onchange = async function () {
     const file = input.files[0];
     if (!file) return;
-    status("Mengunggah foto…");
+    edStatus("Mengunggah foto…");
     try {
       const blob = await kecilkanFoto(file, 1600);
       const path = "halaman/" + Date.now() + ".jpg";
@@ -197,9 +205,9 @@ function gantiFoto(img) {
       img.src = url;
       img.removeAttribute("srcset");
       adaPerubahan = true;
-      status("Foto diganti ✓ (jangan lupa Simpan)");
+      edStatus("Foto diganti ✓ (jangan lupa Simpan)");
     } catch (err) {
-      status("Gagal mengunggah: " + (err.message || err), true);
+      edStatus("Gagal mengunggah: " + (err.message || err), true);
     }
   };
   input.click();
@@ -241,7 +249,7 @@ function bersihkan(el) {
 }
 
 async function simpan() {
-  status("Menyimpan…");
+  edStatus("Menyimpan…");
   const baris = BAGIAN_EDIT.map(function (id) {
     const sec = document.getElementById(id);
     if (!sec) return null;
@@ -254,21 +262,21 @@ async function simpan() {
   }).filter(Boolean);
 
   const { error } = await db.from("konten_halaman").upsert(baris, { onConflict: "bagian,bahasa" });
-  if (error) return status("Gagal menyimpan: " + error.message, true);
+  if (error) return edStatus("Gagal menyimpan: " + error.message, true);
   adaPerubahan = false;
-  status("Tersimpan ✓ untuk bahasa " + NAMA_BAHASA[BAHASA_AKTIF]);
+  edStatus("Tersimpan ✓ untuk bahasa " + NAMA_BAHASA[BAHASA_AKTIF]);
   setTimeout(function () { location.reload(); }, 900);
 }
 
 async function kembalikanAwal() {
   if (!confirm("Hapus semua perubahan editor untuk bahasa " + NAMA_BAHASA[BAHASA_AKTIF] + " dan kembali ke isi awal?")) return;
   const { error } = await db.from("konten_halaman").delete().eq("bahasa", BAHASA_AKTIF);
-  if (error) return status("Gagal: " + error.message, true);
+  if (error) return edStatus("Gagal: " + error.message, true);
   adaPerubahan = false;
   location.reload();
 }
 
-function status(teks, salah) {
+function edStatus(teks, salah) {
   const el = document.querySelector("#ed-panel .ed-status");
   if (!el) return;
   el.textContent = teks;

@@ -28,7 +28,13 @@
   // ----- Bahasa (hanya untuk halaman yang punya atribut data-i18n) -----
   if (html.hasAttribute("data-i18n")) {
     var bahasa = null;
-    try { bahasa = localStorage.getItem("bahasa"); } catch (e) {}
+    // 1) dari alamat (?lang=id), 2) dari pilihan tersimpan, 3) dari bahasa perangkat
+    var dariUrl = (location.search.match(/[?&]lang=(id|en|ar)/) || [])[1];
+    if (dariUrl) {
+      bahasa = dariUrl;
+      try { localStorage.setItem("bahasa", dariUrl); } catch (e) {}
+    }
+    if (!bahasa) { try { bahasa = localStorage.getItem("bahasa"); } catch (e) {} }
     if (!bahasa) {
       var nav = (navigator.language || "en").slice(0, 2);
       bahasa = nav === "id" || nav === "ar" ? nav : "en";
