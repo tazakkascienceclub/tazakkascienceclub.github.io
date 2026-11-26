@@ -12,9 +12,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   <!-- Tema gelap/terang diterapkan sebelum halaman tampil -->
-  <script src="js/tema.js?v=20261125"></script>
-  <link rel="stylesheet" href="css/style.css?v=20261125">
-  <link rel="stylesheet" href="css/editor.css?v=20261125">
+  <script src="js/tema.js?v=20261126"></script>
+  <link rel="stylesheet" href="css/style.css?v=20261126">
+  <link rel="stylesheet" href="css/editor.css?v=20261126">
 </head>
 <body>
 
@@ -35,6 +35,7 @@
         <a href="#programs">Programs</a>
         <a href="#achievements">Achievements</a>
         <a href="#gallery">Gallery</a>
+        <a href="#belajar-online">Belajar Online <span class="lock">⭐</span></a>
         <a href="#member">Anggota <span class="lock">🔒</span></a>
         <a href="#contact">Contact</a>
       </nav>
@@ -64,9 +65,8 @@
     <a href="#achievements">Achievements</a>
     <a href="#roadmap">Roadmap</a>
     <a href="#gallery">Gallery</a>
-    <a href="portal.html#belajar">📚 Belajar <span class="lock">🔒</span></a>
+    <a href="#belajar-online">🎓 Belajar Online <span class="lock">⭐</span></a>
     <a href="portal.html#download">📥 Download <span class="lock">🔒</span></a>
-    <a href="portal.html#ujian">📝 Ujian <span class="lock">🔒</span></a>
     <a href="#contact">Contact</a>
     <div class="mobile-tools">
       <button data-lang="id">ID</button>
@@ -249,16 +249,57 @@
       </div>
     </section>
 
+    <!-- ================= BELAJAR ONLINE (login + langganan) ================= -->
+    <section id="belajar-online" class="section">
+      <div class="container">
+        <div class="section-head center">
+          <span class="kicker">Belajar Online</span>
+          <h2 class="section-title">Kelas online TSTC untuk santri dan umum</h2>
+          <p class="section-lead">Masuk atau daftar, lalu berlangganan Premium Rp25.000 per bulan untuk membuka semua kelas di bawah ini.</p>
+        </div>
+        <div class="member-grid">
+          <a href="portal.html#belajar-online/matematika-science" class="member-card">
+            <span class="badge-lock">⭐ Premium</span>
+            <div class="icon">🔬</div>
+            <h3>Matematika &amp; Science</h3>
+            <p>Materi, aplikasi, latihan soal, dan soal ujian sains.</p>
+            <ul><li>Matematika</li><li>Fisika</li><li>Kimia</li><li>Biologi</li><li>Ujian</li></ul>
+            <span class="go">Buka →</span>
+          </a>
+          <a href="portal.html#belajar-online/robotika" class="member-card">
+            <span class="badge-lock">⭐ Premium</span>
+            <div class="icon">🤖</div>
+            <h3>Robotika</h3>
+            <p>Belajar elektronika, sensor, dan membuat robot sendiri.</p>
+            <ul><li>Materi</li><li>Proyek &amp; Tutorial</li><li>Aplikasi</li></ul>
+            <span class="go">Buka →</span>
+          </a>
+          <a href="portal.html#belajar-online/kompetisi" class="member-card">
+            <span class="badge-lock">⭐ Premium</span>
+            <div class="icon">🏆</div>
+            <h3>Kompetisi</h3>
+            <p>Persiapan olimpiade, lomba karya ilmiah, dan inovasi.</p>
+            <ul><li>Materi Olimpiade</li><li>Latihan Soal Lomba</li><li>Karya Ilmiah</li></ul>
+            <span class="go">Buka →</span>
+          </a>
+        </div>
+        <p class="section-lead" style="text-align:center;margin-top:1.5rem">
+          <a href="daftar.html" class="btn btn-light js-daftar-btn">Daftar gratis</a>
+          <a href="portal.html#langganan" class="btn btn-gold">Langganan sekarang</a>
+        </p>
+      </div>
+    </section>
+
     <!-- ================= AREA ANGGOTA (perlu login) ================= -->
     <section id="member" class="section section-soft">
       <div class="container">
         <div class="section-head center">
           <span class="kicker">Area Anggota</span>
           <h2 class="section-title">Daftar gratis, belajar tanpa batas</h2>
-          <p class="section-lead">Siapa pun bisa mendaftar. Menu Download gratis untuk anggota; Belajar &amp; Ujian dengan langganan Premium.</p>
+          <p class="section-lead">Siapa pun bisa mendaftar. Menu Download gratis untuk anggota; Belajar Online dengan langganan Premium.</p>
         </div>
         <div class="member-grid">
-          <a href="portal.html#belajar" class="member-card">
+          <a href="portal.html#belajar-online/matematika-science/belajar" class="member-card">
             <span class="badge-lock">⭐ Premium</span>
             <div class="icon">📚</div>
             <h3>Belajar</h3>
@@ -274,7 +315,7 @@
             <ul><li>Pengumuman</li><li>Hasil Ujian</li><li>Sertifikat</li></ul>
             <span class="go">Buka →</span>
           </a>
-          <a href="portal.html#ujian" class="member-card">
+          <a href="portal.html#belajar-online/matematika-science/ujian" class="member-card">
             <span class="badge-lock">⭐ Premium</span>
             <div class="icon">📝</div>
             <h3>Ujian</h3>
@@ -295,7 +336,7 @@
           <div class="price-card featured">
             <span class="plan-name">⭐ Premium</span>
             <div class="price"><b>Rp25.000</b><span>/bulan</span></div>
-            <ul><li>✓ Semua fitur Anggota</li><li>✓ Materi &amp; aplikasi 4 mata pelajaran</li><li>✓ Latihan soal + pembahasan</li><li>✓ Soal ujian</li></ul>
+            <ul><li>✓ Semua fitur Anggota</li><li>✓ Matematika &amp; Science</li><li>✓ Robotika</li><li>✓ Kompetisi</li></ul>
             <a href="portal.html#langganan" class="btn btn-gold">Langganan sekarang</a>
           </div>
         </div>
@@ -419,9 +460,8 @@
         </div>
         <div>
           <h4>Area Anggota</h4>
-          <a href="portal.html#belajar">Belajar</a>
+          <a href="portal.html#belajar-online">Belajar Online</a>
           <a href="portal.html#download">Download</a>
-          <a href="portal.html#ujian">Ujian</a>
           <a href="daftar.html">Daftar</a>
           <a href="login.html">Login</a>
         </div>
@@ -441,9 +481,9 @@
 
   <!-- Supabase (login) + pengaturan + interaksi -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js?v=20261125"></script>
-  <script src="js/i18n.js?v=20261125"></script>
-  <script src="js/main.js?v=20261125"></script>
-  <script src="js/editor.js?v=20261125"></script>
+  <script src="js/config.js?v=20261126"></script>
+  <script src="js/i18n.js?v=20261126"></script>
+  <script src="js/main.js?v=20261126"></script>
+  <script src="js/editor.js?v=20261126"></script>
 </body>
 </html>
