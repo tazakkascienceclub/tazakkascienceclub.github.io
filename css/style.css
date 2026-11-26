@@ -556,7 +556,7 @@ p { margin-bottom: 0.9rem; }
 .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
 
 /* Tombol Daftar di header disembunyikan di HP (ada di menu) */
-@media (max-width: 519px) { .hide-phone { display: none; } }
+@media (max-width: 519px) { .hide-phone, .lang-seg.hide-phone, .icon-btn.hide-phone { display: none !important; } }
 
 /* ===== 18. TABLET (≥ 720px) ===== */
 @media (min-width: 720px) {
