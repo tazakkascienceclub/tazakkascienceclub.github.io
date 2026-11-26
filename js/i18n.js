@@ -181,6 +181,28 @@ const KAMUS = {
   "✓ Soal ujian": { en: "✓ Exam papers", ar: "✓ أسئلة الاختبارات" },
   "Langganan sekarang": { en: "Subscribe now", ar: "اشترك الآن" },
 
+  // ----- Belajar Online -----
+  "Belajar Online": { en: "Online Learning", ar: "التعلّم عبر الإنترنت" },
+  "🎓 Belajar Online": { en: "🎓 Online Learning", ar: "🎓 التعلّم عبر الإنترنت" },
+  "Kelas online TSTC untuk santri dan umum": { en: "TSTC online classes for students and the public", ar: "دورات النادي عبر الإنترنت للطلاب والجمهور" },
+  "Masuk atau daftar, lalu berlangganan Premium Rp25.000 per bulan untuk membuka semua kelas di bawah ini.": { en: "Log in or sign up, then subscribe to Premium for Rp25,000 per month to unlock every class below.", ar: "سجّل الدخول أو أنشئ حسابًا، ثم اشترك في الباقة المميزة بمبلغ 25,000 روبية شهريًا لفتح جميع الدورات أدناه." },
+  "Matematika & Science": { en: "Mathematics & Science", ar: "الرياضيات والعلوم" },
+  "Materi, aplikasi, latihan soal, dan soal ujian sains.": { en: "Materials, apps, practice questions, and science exam papers.", ar: "مواد وتطبيقات وتمارين وأسئلة اختبارات علمية." },
+  "Robotika": { en: "Robotics", ar: "الروبوتات" },
+  "Belajar elektronika, sensor, dan membuat robot sendiri.": { en: "Learn electronics, sensors, and build your own robot.", ar: "تعلّم الإلكترونيات والحساسات وابنِ روبوتك بنفسك." },
+  "Proyek & Tutorial": { en: "Projects & Tutorials", ar: "مشاريع ودروس" },
+  "Materi": { en: "Materials", ar: "المواد" },
+  "Aplikasi": { en: "Apps", ar: "التطبيقات" },
+  "Kompetisi": { en: "Competitions", ar: "المسابقات" },
+  "Persiapan olimpiade, lomba karya ilmiah, dan inovasi.": { en: "Olympiad preparation, scientific paper contests, and innovation.", ar: "الاستعداد للأولمبياد ومسابقات البحث العلمي والابتكار." },
+  "Materi Olimpiade": { en: "Olympiad Materials", ar: "مواد الأولمبياد" },
+  "Latihan Soal Lomba": { en: "Contest Practice", ar: "تمارين المسابقات" },
+  "Karya Ilmiah": { en: "Scientific Papers", ar: "الأبحاث العلمية" },
+  "✓ Matematika & Science": { en: "✓ Mathematics & Science", ar: "✓ الرياضيات والعلوم" },
+  "✓ Robotika": { en: "✓ Robotics", ar: "✓ الروبوتات" },
+  "✓ Kompetisi": { en: "✓ Competitions", ar: "✓ المسابقات" },
+  "Siapa pun bisa mendaftar. Menu Download gratis untuk anggota; Belajar Online dengan langganan Premium.": { en: "Anyone can sign up. Downloads are free for members; Online Learning comes with a Premium subscription.", ar: "يمكن لأي شخص التسجيل. التنزيلات مجانية للأعضاء، أما التعلّم عبر الإنترنت فمع الاشتراك المميز." },
+
   // ----- Roadmap -----
   "Sustainability roadmap 2026–2033": { id: "Peta jalan keberlanjutan 2026–2033", ar: "خارطة طريق الاستدامة 2026–2033" },
   "Foundation": { id: "Fondasi", ar: "التأسيس" },

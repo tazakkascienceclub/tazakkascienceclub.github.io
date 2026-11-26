@@ -1,6 +1,6 @@
 // =========================================================
 // PORTAL ANGGOTA TSTC
-// Menu: Belajar, Download, Ujian (hanya untuk yang sudah login)
+// Menu: Belajar Online (Matematika & Science, Robotika, Kompetisi; berlangganan) dan Download (gratis)
 // Admin bisa menambah & menghapus file; santri hanya melihat & mengunduh.
 // =========================================================
 
@@ -8,8 +8,19 @@
 // Untuk menambah folder baru, salin salah satu bagian lalu ubah nama & kuncinya.
 // "bawaan" = link yang selalu tampil (tidak perlu diunggah admin).
 const MENU = {
+  // ===== BELAJAR ONLINE (berlangganan) =====
+  // Catatan: kunci folder penyimpanan file tetap "belajar/...", "ujian/...", "robotika/...", "kompetisi/..."
+  // (awalan "belajar-online/" dan "matematika-science/" tidak ikut disimpan, lihat kunciFolder()).
+  "belajar-online": {
+    nama: "Belajar Online", ikon: "🎓", warna: "#14a37f", premium: true,
+    deskripsi: "Matematika & Science, Robotika, dan Kompetisi",
+    anak: {
+      "matematika-science": {
+        nama: "Matematika & Science", ikon: "🔬", warna: "#0b5d4b",
+        deskripsi: "Materi, aplikasi, latihan soal, dan soal ujian",
+        anak: {
   belajar: {
-    nama: "Belajar", ikon: "📚", warna: "#14a37f", premium: true,
+    nama: "Belajar", ikon: "📚", warna: "#14a37f",
     deskripsi: "Materi dan aplikasi per mata pelajaran",
     anak: {
       matematika: {
@@ -56,6 +67,42 @@ const MENU = {
     },
   },
 
+  ujian: {
+    nama: "Ujian", ikon: "📝", warna: "#dc2626",
+    deskripsi: "Latihan soal dan soal ujian",
+    anak: {
+      "latihan-soal": { nama: "Latihan Soal & Pembahasan", ikon: "✏️", warna: "#0b5d4b", deskripsi: "Soal latihan beserta pembahasannya" },
+      "soal-ujian": { nama: "Soal Ujian", ikon: "🧾", warna: "#dc2626", deskripsi: "Naskah soal ujian dari pembina" },
+    },
+  },
+        },
+      },
+      robotika: {
+        nama: "Robotika", ikon: "🤖", warna: "#7c3aed",
+        deskripsi: "Elektronika, mikrokontroler, sensor, dan proyek robot",
+        anak: {
+          materi: { nama: "Materi", ikon: "📖", deskripsi: "Modul dan bahan bacaan robotika" },
+          proyek: { nama: "Proyek & Tutorial", ikon: "🛠️", deskripsi: "Panduan membuat proyek langkah demi langkah" },
+          aplikasi: { nama: "Aplikasi", ikon: "💻", deskripsi: "Simulator dan perangkat lunak", bawaan: [
+            { judul: "Tinkercad Circuits", keterangan: "Simulasi rangkaian dan Arduino di browser", url: "https://www.tinkercad.com/circuits", jenis: "web" },
+            { judul: "Wokwi Simulator", keterangan: "Simulasi Arduino dan ESP32 online", url: "https://wokwi.com", jenis: "web" },
+            { judul: "mBlock", keterangan: "Pemrograman blok untuk mBot dan Arduino", url: "https://www.mblock.cc", jenis: "web" },
+          ] },
+        },
+      },
+      kompetisi: {
+        nama: "Kompetisi", ikon: "🏆", warna: "#d97706",
+        deskripsi: "Persiapan olimpiade, lomba karya ilmiah, dan inovasi",
+        anak: {
+          olimpiade: { nama: "Materi Olimpiade", ikon: "🥇", deskripsi: "Bahan belajar persiapan olimpiade sains" },
+          "latihan-lomba": { nama: "Latihan Soal Lomba", ikon: "✏️", deskripsi: "Soal latihan dan pembahasan tingkat lomba" },
+          "karya-ilmiah": { nama: "Karya Ilmiah & Inovasi", ikon: "📝", deskripsi: "Panduan menulis paper, poster, dan proposal inovasi" },
+        },
+      },
+    },
+  },
+
+
   download: {
     nama: "Download", ikon: "📥", warna: "#2563eb",
     deskripsi: "Pengumuman, hasil ujian, dan sertifikat",
@@ -63,15 +110,6 @@ const MENU = {
       pengumuman: { nama: "Pengumuman", ikon: "📢", warna: "#2563eb", deskripsi: "Informasi resmi untuk anggota" },
       "hasil-ujian": { nama: "Hasil Ujian", ikon: "📊", warna: "#7c3aed", deskripsi: "Rekap nilai dan hasil ujian" },
       sertifikat: { nama: "Sertifikat", ikon: "🎓", warna: "#d97706", deskripsi: "Sertifikat kegiatan dan lomba" },
-    },
-  },
-
-  ujian: {
-    nama: "Ujian", ikon: "📝", warna: "#dc2626", premium: true,
-    deskripsi: "Latihan soal dan soal ujian",
-    anak: {
-      "latihan-soal": { nama: "Latihan Soal & Pembahasan", ikon: "✏️", warna: "#0b5d4b", deskripsi: "Soal latihan beserta pembahasannya" },
-      "soal-ujian": { nama: "Soal Ujian", ikon: "🧾", warna: "#dc2626", deskripsi: "Naskah soal ujian dari pembina" },
     },
   },
 };
@@ -175,14 +213,28 @@ async function hitungFile() {
   (data || []).forEach(function (r) { jumlahPerFolder[r.folder] = (jumlahPerFolder[r.folder] || 0) + 1; });
 }
 
+// Alamat halaman (#belajar-online/matematika-science/belajar/fisika/materi) -> kunci penyimpanan (belajar/fisika/materi)
+function kunciFolder(jalur) {
+  const bagian = Array.isArray(jalur) ? jalur.slice() : String(jalur || "").split("/").filter(Boolean);
+  if (bagian[0] === "belajar-online") bagian.shift();
+  if (bagian[0] === "matematika-science") bagian.shift();
+  return bagian.join("/");
+}
+
 function jumlahItem(jalur, node) {
-  if (!node.anak) return (jumlahPerFolder[jalur] || 0) + (node.bawaan ? node.bawaan.length : 0);
+  if (!node.anak) return (jumlahPerFolder[kunciFolder(jalur)] || 0) + (node.bawaan ? node.bawaan.length : 0);
   return Object.keys(node.anak).reduce(function (t, k) { return t + jumlahItem(jalur + "/" + k, node.anak[k]); }, 0);
 }
 
 // ---------- 4. PINDAH HALAMAN SESUAI ALAMAT (#belajar/fisika/materi) ----------
 function tampilkan() {
   const bagian = location.hash.replace("#", "").split("/").filter(Boolean);
+
+  // Link lama (#belajar..., #ujian...) dialihkan ke lokasi barunya
+  if (bagian[0] === "belajar" || bagian[0] === "ujian") {
+    location.replace("#belajar-online/matematika-science/" + bagian.join("/"));
+    return;
+  }
 
   // Halaman khusus: langganan (semua), anggota & pembayaran (admin)
   const khusus = { langganan: halamanLangganan };
@@ -249,7 +301,7 @@ function kotakLangganan() {
     return '<a href="#langganan" class="sub-banner ok"><span class="ic">⭐</span><div><b>Premium aktif</b>' +
       '<span>Berlaku sampai ' + (aktifSampai ? tanggal(aktifSampai) : "-") + '. Ketuk untuk memperpanjang.</span></div><span class="go">›</span></a>';
   }
-  return '<a href="#langganan" class="sub-banner"><span class="ic">🔓</span><div><b>Buka menu Belajar &amp; Ujian</b>' +
+  return '<a href="#langganan" class="sub-banner"><span class="ic">🔓</span><div><b>Buka Belajar Online</b>' +
     '<span>Langganan Premium hanya ' + rupiah(HARGA_BULANAN) + ' per bulan.</span></div><span class="btn btn-gold btn-sm">Langganan</span></a>';
 }
 
@@ -291,7 +343,7 @@ function halamanFolder(jalur, node) {
 
 // ---------- 7. HALAMAN FILE (folder paling dalam) ----------
 async function halamanFile(jalur, node, warna) {
-  const folder = jalur.join("/");
+  const folder = kunciFolder(jalur);
   app.innerHTML = jejak(jalur) +
     '<div class="page-head"><div><h1>' + node.ikon + " " + node.nama + '</h1><p>' + node.deskripsi + '</p></div>' +
     (isAdmin ? '<button class="btn btn-gold" id="btnTambah">＋ Tambah file</button>' : "") + '</div>' +
@@ -328,12 +380,17 @@ function barisFile(f, i, tampilFolder) {
     '</div></div>';
 }
 
-function namaFolder(jalur) {
-  let daftar = MENU, nama = [];
-  (jalur || "").split("/").forEach(function (k) {
-    if (daftar && daftar[k]) { nama.push(daftar[k].nama); daftar = daftar[k].anak; }
-  });
-  return nama.join(" › ");
+// Mencari nama jejak (Belajar Online › Matematika & Science › ...) dari kunci penyimpanan file
+function namaFolder(kunci) {
+  let hasil = "";
+  (function cari(daftar, jalur, nama) {
+    Object.keys(daftar || {}).forEach(function (k) {
+      const n = daftar[k], j = jalur.concat(k), nm = nama.concat(n.nama);
+      if (!n.anak && kunciFolder(j) === kunci) { hasil = nm.join(" › "); return; }
+      if (n.anak) cari(n.anak, j, nm);
+    });
+  })(MENU, [], []);
+  return hasil || kunci;
 }
 
 // ---------- 8. BUKA / UNDUH / HAPUS ----------
@@ -371,10 +428,10 @@ function halamanPaywall(menu) {
     '<div class="paywall">' +
       '<div class="pw-icon">🔒</div>' +
       '<h1>' + menu.ikon + ' ' + menu.nama + ' khusus anggota Premium</h1>' +
-      '<p>' + menu.deskripsi + '. Berlangganan untuk membuka semua materi, aplikasi, latihan soal, dan soal ujian.</p>' +
+      '<p>' + menu.deskripsi + '. Berlangganan untuk membuka seluruh kelas Belajar Online.</p>' +
       '<div class="pw-price"><b>' + rupiah(HARGA_BULANAN) + '</b><span>/ bulan</span></div>' +
-      '<ul class="pw-list"><li>📚 Materi Matematika, Fisika, Kimia, Biologi</li><li>💻 Aplikasi &amp; simulasi pilihan</li>' +
-      '<li>✏️ Latihan soal + pembahasan</li><li>🧾 Soal ujian dari pembina</li></ul>' +
+      '<ul class="pw-list"><li>🔬 Matematika &amp; Science: materi, aplikasi, latihan soal, soal ujian</li>' +
+      '<li>🤖 Robotika: materi, proyek, simulator</li><li>🏆 Kompetisi: olimpiade, latihan lomba, karya ilmiah</li></ul>' +
       '<a href="#langganan" class="btn btn-gold">Langganan sekarang →</a>' +
     '</div>';
 }
@@ -386,7 +443,7 @@ async function halamanLangganan() {
 
   let html =
     '<nav class="crumbs"><a href="#">🏠 Dashboard</a><span class="sep">›</span><span class="now">Langganan</span></nav>' +
-    '<div class="page-head"><div><h1>⭐ Langganan Premium</h1><p>Akses penuh menu Belajar dan Ujian.</p></div></div>' +
+    '<div class="page-head"><div><h1>⭐ Langganan Premium</h1><p>Akses penuh Belajar Online: Matematika &amp; Science, Robotika, dan Kompetisi.</p></div></div>' +
     '<div class="sub-status ' + (aktif ? "ok" : "") + '">' +
       (aktif
         ? '<span class="ic">✅</span><div><b>Premium aktif</b><span>Berlaku sampai <b>' + tanggal(aktifSampai) + '</b>. Pembayaran baru akan menambah masa aktif.</span></div>'

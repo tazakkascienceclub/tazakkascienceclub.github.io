@@ -5,7 +5,7 @@
 // =========================================================
 
 // Bagian halaman yang bisa diubah lewat editor admin
-const BAGIAN_EDIT = ["home", "about", "vision", "programs", "achievements", "member", "roadmap", "gallery", "contact"];
+const BAGIAN_EDIT = ["home", "about", "vision", "programs", "achievements", "belajar-online", "member", "roadmap", "gallery", "contact"];
 const BAHASA_AKTIF = window.BAHASA || "en";
 const header = document.getElementById("header");
 
